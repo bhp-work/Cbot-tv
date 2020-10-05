@@ -1,0 +1,255 @@
+<html>
+
+<head>
+  <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+
+</head>
+<style>
+  #demo {
+    -webkit-box-shadow: 3px 8px 8px -4px #000000;
+    box-shadow: 3px 8px 8px -4px #000000;
+    background: #F5F5F5;
+    width: fit-content;
+    padding: 1px;
+  }
+
+  body#tinymce {
+    background: #FFFFFF
+  }
+</style>
+
+<body>
+  <table style="widows: 100%;" align="center" border="0">
+    <tr style="box-shadow: 0px 0px 0px 1px rgb(158, 11, 11); outline: thin solid" id="demo">
+      <td>
+        <h4>Exchanges:</h4>
+      </td>
+      <td>
+        <select id="exchange" onchange="LoadPairDropdown();">
+          <option id="Binance">Binance</option>
+          <option id="Poloniex">Poloniex</option>
+          <option id="Bittrex">Bittrex</option>
+        </select>
+      </td>
+      <td style="text-align:right ; ">
+        <h4> Currency pair:</h4>
+      </td>
+      <td>
+        <select id="pairs" onchange="LoadChart();">
+
+        </select>
+      </td>
+    </tr>
+    <tr style="outline: thin solid" id="demo">
+      <td>
+        <h4>Tools:</h4>
+      </td>
+      <td colspan="3">
+        <input type="checkbox" id="chk_hide_side_toolbar" onchange="LoadChart();">
+        Side Toolbar &nbsp;&nbsp;
+
+        <input type="checkbox" id="chk_enable_publishing" onchange="LoadChart();">
+        Enable Publishing &nbsp;&nbsp;&nbsp;&nbsp;
+
+        <input type="checkbox" id="chk_details" onchange="LoadChart();">
+        Details &nbsp;&nbsp;&nbsp;&nbsp;
+
+        <input type="checkbox" id="chk_hotlist" onchange="LoadChart();">
+        Hotlist &nbsp;&nbsp;&nbsp;&nbsp;
+
+        <input type="checkbox" id="chk_calendar" onchange="LoadChart();">
+        calendar &nbsp;&nbsp;&nbsp;&nbsp;
+
+        <input type="checkbox" id="chk_allow_symbol_change" onchange="LoadChart();">
+        Allow symbol change &nbsp;&nbsp;&nbsp;&nbsp;
+
+        <input type="checkbox" id="chk_withdateranges" onchange="LoadChart();">
+        With date ranges
+        </div>
+      </td>
+    </tr>
+    <tr style="outline: thin solid" id="demo">
+      <td>
+        <h4>Indicators:</h4>
+      </td>
+      <td colspan="3">
+        <input type="checkbox" id="chk_bolinger" onchange="LoadChart();" value="BB@tv-basicstudies">
+        Bolinger Bands &nbsp;&nbsp;&nbsp;&nbsp;
+
+        <input type="checkbox" id="chk_rsi" onchange="LoadChart();" value="RSI@tv-basicstudies">
+        RSI &nbsp;&nbsp;&nbsp;&nbsp;
+
+        <input type="checkbox" id="chk_vwamp" onchange="LoadChart();" value="VWAP@tv-basicstudies">
+        VWAMP &nbsp;&nbsp;&nbsp;&nbsp;
+
+        <input type="checkbox" id="chk_MACD" onchange="LoadChart();" value="MACD@tv-basicstudies">
+        MACD &nbsp;&nbsp;&nbsp;&nbsp;
+      </td>
+    </tr>
+    <tr>
+      <td colspan="4" align="center">
+        </br>
+        <button style="outline: thin solid; padding: 2px;" class="demo" id="btnShowChart" onclick="LoadChart();">Show
+          Chart</button>
+      </td>
+    </tr>
+  </table>
+  </br>
+  <div class="tradingview-widget-container" id="tvchart"></div>
+</body>
+
+
+<script>
+  LoadPairDropdown(); 
+
+  //------------------Load the currency-pair dropdown based on exchnage selected value
+  function LoadPairDropdown() {
+    var markupPair = '';
+    const exchange = document.getElementById('exchange').value
+
+    //Fetch the pairs based on exchange , each exchnage has diffent api with diffent set of keys.
+//Binance
+    if (exchange == "Binance") {
+      url = "https://api.binance.com/api/v1/exchangeInfo";
+      fetch(url)
+        .then((response) => response.json())
+        .then((data) => {
+          data.symbols.forEach(element => {
+            markupPair += '<option id="' + element.symbol + '">' + element.symbol + '</option>';
+          });
+          document.getElementById("pairs").innerHTML = markupPair;
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+          alert(error);
+        });
+    }
+    //Poloniex
+    else if (exchange == "Poloniex") {
+      url = "https://poloniex.com/public?command=returnTicker";
+      fetch(url)
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+         
+          for (var key in data) {
+            if (data.hasOwnProperty(key)) {
+              var nameArr = key.split('_');
+              markupPair += '<option id="' + nameArr[1] + nameArr[0] + '">' + nameArr[1] + nameArr[0] + '</option>';
+            }
+          }
+
+          document.getElementById("pairs").innerHTML = markupPair;
+
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+          alert(error);
+        });
+    }
+    //Bittrex
+    else if (exchange == "Bittrex") {
+      url = "https://api.bittrex.com/v3/markets";
+      fetch(url)
+        .then((response) => response.json())
+        .then((data) => {
+
+          for (var key in data) {
+            if (data.hasOwnProperty(key)) {
+              console.log(data[key].symbol);
+              var nameArr = data[key].symbol.split('-');
+              markupPair += '<option id="' + nameArr[0] + nameArr[1] + '">' + nameArr[0] + nameArr[1] + '</option>';
+            }
+          }
+
+          document.getElementById("pairs").innerHTML = markupPair;
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+          alert(error.details);
+        });
+    }
+
+  }
+
+//-----------------------------Load the Trading View chart---------------------------------
+  function LoadChart() {
+    let symbol = document.getElementById('pairs').value;
+    var bool_hide_side_toolbar;
+    const bool_show_side_toolbar = document.getElementById('chk_hide_side_toolbar').checked;
+    if (bool_show_side_toolbar) {
+      bool_hide_side_toolbar = false
+
+    }
+    else {
+      bool_hide_side_toolbar = true
+
+    }
+    const bool_enable_publishing = document.getElementById('chk_enable_publishing').checked;
+    const bool_details = document.getElementById('chk_details').checked;
+    const bool_hotlist = document.getElementById('chk_hotlist').checked;
+    const bool_calendar = document.getElementById('chk_calendar').checked;
+    const bool_allow_symbol_change = document.getElementById('chk_allow_symbol_change').checked;
+    const bool_withdateranges = document.getElementById('chk_withdateranges').checked;
+    const bool_bolinger = document.getElementById('chk_bolinger').checked;
+    const bool_rsi = document.getElementById('chk_rsi').checked;
+    const bool_vwamp = document.getElementById('chk_vwamp').checked;
+    const bool_MACD = document.getElementById('chk_MACD').checked;
+
+    var mrkup_studies = "", mrkup_studies1 = "", mrkup_studies2 = "", mrkup_studies3 = "";
+
+
+    if (bool_bolinger || bool_rsi || bool_vwamp || bool_MACD) {
+      if (bool_bolinger) {
+        mrkup_studies = document.getElementById('chk_bolinger').value;
+      }
+      if (bool_rsi) {
+        mrkup_studies1 = document.getElementById('chk_rsi').value;
+      }
+      if (bool_vwamp) {
+        mrkup_studies2 = document.getElementById('chk_vwamp').value;
+      }
+      if (bool_MACD) {
+        mrkup_studies3 = document.getElementById('chk_MACD').value;
+      }
+    }
+
+
+    // console.log(mrkup_studies);
+    const exchange = document.getElementById('exchange').value
+    new TradingView.widget(
+      {
+        "width": "1100",
+        "height": "500",
+        "symbol": exchange + ":" + symbol,
+        "timezone": "Etc/UTC",
+        "theme": "light",
+        "style": "1",
+        "locale": "en",
+        "toolbar_bg": "#f1f3f6",
+        "enable_publishing": bool_enable_publishing,
+        "withdateranges": bool_withdateranges,
+        "range": "3m",
+        "hide_side_toolbar": bool_hide_side_toolbar,
+        "allow_symbol_change": bool_allow_symbol_change,
+        "details": bool_details,
+        "hotlist": bool_hotlist,
+        "calendar": bool_calendar,
+        "studies": [
+          mrkup_studies, mrkup_studies1, mrkup_studies2, mrkup_studies3
+        ],
+
+        "show_popup_button": true,
+        "popup_width": "1000",
+        "popup_height": "650",
+        "container_id": "tvchart"
+      }
+    );
+
+    document.getElementById('btnShowChart').innerText = "Refresh Chart";
+  }
+
+
+</script>
+
+</html>
