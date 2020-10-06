@@ -1,0 +1,305 @@
+<html>
+
+<head>
+  <!-- <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script> -->
+
+<!-- Fix for iOS Safari zooming bug -->
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+
+<title>Tradingview chart</title>
+<!-- TV scripts for widget connection -->
+<script
+    type="text/javascript"
+    src="charting_library_clonned_data/charting_library/charting_library.min.js">
+</script>
+<script src="charting_library_clonned_data/datafeeds/udf/dist/polyfills.js" type="text/javascript">
+</script>
+<script src="charting_library_clonned_data/datafeeds/udf/dist/bundle.js" type="text/javascript">
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.2/socket.io.js"></script>
+<script type="text/javascript">
+
+ function LoadChart()
+ {
+     initOnReady();
+ }
+    function getParameterByName(name) {
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec(location.search);
+        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
+
+    var featuresets = [
+        {
+            title: 'header_symbol_search[on]',
+            nodeIdOrDataname: 'header-toolbar-symbol-search',
+        },
+        {
+            title: 'header_chart_type[on]',
+            nodeIdOrDataname: 'header-toolbar-chart-styles',
+        },
+        {
+            title: 'header_compare[on]',
+            nodeIdOrDataname: 'header-toolbar-compare',
+        },
+        {
+            title: 'header_undo_redo[on]',
+            nodeIdOrDataname: 'header-toolbar-undo-redo',
+        },
+        {
+            title: 'header_saveload[on]',
+            nodeIdOrDataname: 'header-toolbar-save-load',
+        },
+        {
+            title: 'header_settings[on]',
+            nodeIdOrDataname: 'header-toolbar-properties',
+        },
+        {
+            title: 'header_fullscreen_button[on]',
+            nodeIdOrDataname: 'header-toolbar-fullscreen',
+        },
+        {
+            title: 'header_screenshot[on]',
+            nodeIdOrDataname: 'header-toolbar-screenshot',
+        },
+        {
+            title: 'header_resolutions[on]',
+            nodeIdOrDataname: 'header-toolbar-intervals',
+        },
+        {
+            title: 'header_indicators[on]',
+            nodeIdOrDataname: 'header-toolbar-indicators',
+        },
+        {
+            title: 'left_toolbar[on]',
+            nodeIdOrDataname: 'drawing-toolbar',
+        },
+        {
+            title: 'timezone_menu[on]',
+            nodeIdOrDataname: 'time-zone-menu',
+        },
+        {
+            title: 'go_to_date[on]',
+            nodeIdOrDataname: 'go-to-date',
+        },
+        {
+            title: 'timeframes_toolbar[on]',
+            nodeIdOrDataname: 'date-ranges-tabs',
+        },
+        {
+            title: 'display_market_status[on]',
+            nodeIdOrDataname: 'market-status',
+        },
+    ];
+
+    function initOnReady() {
+        var widget = window.tvWidget = new TradingView.widget({
+            // debug: true, // uncomment this line to see Library errors and warnings in the console
+            fullscreen: true,
+            symbol: 'AAPL',
+            interval: '1D',
+            container_id: "tv_chart_container",
+
+            //  BEWARE: no trailing slash is expected in feed URL
+            datafeed: new Datafeeds.UDFCompatibleDatafeed("https://demo_feed.tradingview.com"),
+            library_path: "charting_library_clonned_data/charting_library/",
+            locale: getParameterByName('lang') || "en",
+
+            disabled_features: ["use_localstorage_for_settings"],
+            enabled_features: ["study_templates"],
+            charts_storage_url: 'https://saveload.tradingview.com',
+            charts_storage_api_version: "1.1",
+            client_id: 'tradingview.com',
+            user_id: 'public_user_id',
+            theme: getParameterByName('theme'),
+            custom_css_url: '../featuresets.css',
+        });
+
+        widget.onChartReady(function () {
+            widget.headerReady().then(function () {
+                var chartContainer = document.getElementById('tv_chart_container');
+                var iframe = chartContainer.firstChild;
+                var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+
+                function addFeaturePoint(elemIdOrDataname, tooltip) {
+                    var elemWhereAdd = innerDoc.querySelector('#' + elemIdOrDataname)
+                      || innerDoc.querySelector('[data-name=' + elemIdOrDataname + ']');
+
+                    if (!elemWhereAdd) {
+                        console.error('Element with id or data-name' + elemIdOrDataname + ' for featureset ' + tooltip + ' is not found');
+                        return;
+                    }
+
+                    elemWhereAdd.style.position = 'relative';
+
+                    var pointTemplate = document.getElementById('feature-point');
+                    var featurePoint = pointTemplate.cloneNode(true);
+                    featurePoint.removeAttribute('id');
+                    featurePoint.classList.remove('hidden');
+                    featurePoint.setAttribute('title', tooltip);
+
+                    elemWhereAdd.appendChild(featurePoint);
+                }
+
+                function removeFeaturePoint(elemIdOrDataname) {
+
+                }
+
+                function addAllPoints() {
+                    for (var i = 0; i < featuresets.length; i++) {
+                        addFeaturePoint(featuresets[i].nodeIdOrDataname, featuresets[i].title);
+                    }
+                }
+
+                function removeAllPonts() {
+                    var points = innerDoc.getElementsByClassName('feature-point');
+                    while (points[0]) {
+                        points[0].parentNode.removeChild(points[0]);
+                    }
+                }
+
+                addAllPoints();
+
+                var symbolSearchField = innerDoc.getElementById('header-toolbar-symbol-search');
+
+                symbolSearchField.addEventListener('blur', function() {
+                    removeAllPonts();
+                    addAllPoints();
+                }, true);
+            });
+        });
+    };
+
+    window.addEventListener('DOMContentLoaded', initOnReady, false);
+
+</script>
+<!-- Custom datafeed module. -->
+<!-- <script type="module" src="src/main.js"></script> -->
+
+<!-- 
+  <script type="text/javascript">
+  function getParameterByName(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+      results = regex.exec(location.search);
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+  }
+</script> -->
+</head>
+<style>
+  #demo {
+    -webkit-box-shadow: 3px 8px 8px -4px #000000;
+    box-shadow: 3px 8px 8px -4px #000000;
+    background: #F5F5F5;
+    width: fit-content;
+    padding: 1px;
+  }
+
+  body#tinymce {
+    background: #FFFFFF
+  }
+</style>
+<body>
+  <table style="widows: 100%;" align="center" border="0">
+    <tr style="box-shadow: 0px 0px 0px 1px rgb(158, 11, 11); outline: thin solid" id="demo">
+      <td colspan="6">
+        <!-- <input type="checkbox" id="chk_hide_side_toolbar" onchange="ChangeAPIToCryptoCompare();">
+       Show Crypto Compare data -->
+
+       <select id="drp_APIDriver" onchange="ChangeAPIDriver();">
+        <!-- <option id="Binance">NASDAQNM</option> -->
+        <option id="TradingWiew">TradingView</option>
+        <option id="Cryptocompare">Crypto Compare</option>
+        <option id="CryptoXbot">Crypto-X-bot</option>
+      </select>
+      </td>
+    </tr>
+    <tr style="box-shadow: 0px 0px 0px 1px rgb(158, 11, 11); outline: thin solid" id="demo">
+      <td>
+        <h4>Exchanges-changed:</h4>
+      </td>
+      <td>
+        <select id="exchange" onchange="LoadSymbolPairs();">
+          <!-- <option id="Binance">NASDAQNM</option> -->
+          <option id="Binance">Binance</option>
+          <option id="Poloniex">Poloniex</option>
+          <option id="Bittrex">Bittrex</option>
+        </select>
+      </td>
+      <td style="text-align:right ; ">
+        <h4> Currency pair:</h4>
+      </td>
+      <td>
+        <select id="pairs" onchange="LoadChart();">
+
+        </select>
+      </td>
+    </tr>
+    <tr style="outline: thin solid" id="demo">
+      <td>
+        <h4>Tools:</h4>
+      </td>
+      <td colspan="3">
+        <input type="checkbox" id="chk_hide_side_toolbar" onchange="LoadChart();">
+        Side Toolbar &nbsp;&nbsp;
+
+        <input type="checkbox" id="chk_enable_publishing" onchange="LoadChart();">
+        Enable Publishing &nbsp;&nbsp;&nbsp;&nbsp;
+
+        <input type="checkbox" id="chk_details" onchange="LoadChart();">
+        Details &nbsp;&nbsp;&nbsp;&nbsp;
+
+        <input type="checkbox" id="chk_hotlist" onchange="LoadChart();">
+        Hotlist &nbsp;&nbsp;&nbsp;&nbsp;
+
+        <input type="checkbox" id="chk_calendar" onchange="LoadChart();">
+        calendar &nbsp;&nbsp;&nbsp;&nbsp;
+
+        <input type="checkbox" id="chk_allow_symbol_change" onchange="LoadChart();">
+        Allow symbol change &nbsp;&nbsp;&nbsp;&nbsp;
+
+        <input type="checkbox" id="chk_withdateranges" onchange="LoadChart();">
+        With date ranges
+        </div>
+      </td>
+    </tr>
+    <tr style="outline: thin solid" id="demo">
+      <td>
+        <h4>Indicators:</h4>
+      </td>
+      <td colspan="3">
+        <input type="checkbox" id="chk_bolinger" onchange="LoadChart();" value="BB@tv-basicstudies">
+        Bolinger Bands &nbsp;&nbsp;&nbsp;&nbsp;
+
+        <input type="checkbox" id="chk_rsi" onchange="LoadChart();" value="RSI@tv-basicstudies">
+        RSI &nbsp;&nbsp;&nbsp;&nbsp;
+
+        <input type="checkbox" id="chk_vwamp" onchange="LoadChart();" value="VWAP@tv-basicstudies">
+        VWAMP &nbsp;&nbsp;&nbsp;&nbsp;
+
+        <input type="checkbox" id="chk_MACD" onchange="LoadChart();" value="MACD@tv-basicstudies">
+        MACD &nbsp;&nbsp;&nbsp;&nbsp;
+      </td>
+    </tr>
+    <tr>
+      <td colspan="4" align="center">
+        </br>
+        <button style="outline: thin solid; padding: 2px;" class="demo" id="btnShowChart" onclick="LoadChart();">Show
+          Chart</button>
+      </td>
+    </tr>
+  </table>
+  </br>
+  <div style="align-content: center;border: rgb(158, 11, 11);" class="tradingview-widget-container" id="tv_chart_container"></div>
+</body>
+ 
+
+<script>
+
+
+</script>
+
+</html>

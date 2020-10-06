@@ -1,0 +1,19 @@
+{
+  "name": "cryptocharts",
+  "version": "1.0.0",
+  "description": "Charting Library is a standalone solution for displaying charts. This free, downloadable library is hosted on your servers and is connected to your data feed to be used in your website or app. [Learn more and download][website-url].",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bhp-work/Crypto.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bhp-work/Crypto/issues"
+  },
+  "homepage": "https://github.com/bhp-work/Crypto#readme"
+}

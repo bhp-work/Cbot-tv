@@ -48,17 +48,15 @@ function getParameterByName(name) {
 window.LoadChart = function () {
   let selSymbol = document.getElementById("pairs").value;
   var bl_hide_side_toolbar;
-  const bl_show_side_toolbar = document.getElementById(
-    "chk_hide_side_toolbar"
-  ).checked;
+  const bl_show_side_toolbar = document.getElementById("chk_hide_side_toolbar")
+    .checked;
   if (bl_show_side_toolbar) {
     bl_hide_side_toolbar = false;
   } else {
     bl_hide_side_toolbar = true;
   }
-  const bl_enable_publishing = document.getElementById(
-    "chk_enable_publishing"
-  ).checked;
+  const bl_enable_publishing = document.getElementById("chk_enable_publishing")
+    .checked;
   const bl_details = document.getElementById("chk_details").checked;
   const bl_hotlist = document.getElementById("chk_hotlist").checked;
   const bl_calendar = document.getElementById("chk_calendar").checked;
@@ -95,8 +93,8 @@ window.LoadChart = function () {
   // console.log(mrkup_studies);
   const exchange = document.getElementById("exchange").value;
   //alert("symbol:"+ exchange + ":" + selSymbol);
-  
- var wid= window.tvWidget = new TradingView.widget({
+
+  var wid = (window.tvWidget = new TradingView.widget({
     //symbol: 'Bitfinex:BTC/USD', // default symbol
     interval: "1D", // default interval
     fullscreen: true, // displays the chart in the fullscreen mode
@@ -105,7 +103,7 @@ window.LoadChart = function () {
     //	datafeed: new Datafeeds.UDFCompatibleDatafeed = function(datafeed),
     //	datafeed: new Datafeed.UDFCompatibleDatafeed("https://min-api.cryptocompare.com"),
 
-    library_path: "../charting_library_clonned_data/charting_library/",
+    library_path: "charting_library_clonned_data/charting_library/",
     locale: getParameterByName("lang") || "en",
     disabled_features: ["use_localstorage_for_settings"],
     enabled_features: ["study_templates"],
@@ -125,8 +123,7 @@ window.LoadChart = function () {
     popup_width: "1000",
     popup_height: "650",
     symbol: exchange + ":" + selSymbol,
-    //	symbol:selSymbol,
-    symbol: "Binance:ETH/USDT", // default symbol
+      //symbol: "Binance:ETH/USDT", // default symbol
     exchange: exchange,
     enable_publishing: bl_enable_publishing,
     withdateranges: bl_withdateranges,
@@ -146,36 +143,40 @@ window.LoadChart = function () {
     has_intraday: true,
     intraday_multipliers: ["1", "60"],
     has_weekly_and_monthly: true,
-    overrides: {
-      "hide_side_toolbar": "true",
-      "allow_symbol_change": "true",
-      "details": "true",
-      "hotlist": "true",
-      "calendar": "true",
-     
-    },
-  });
-// console.log(wid);
-//   document.getElementById("btnShowChart").innerText = "Refresh Chart";
-//   //Charting drawing trial
+    hide_side_toolbar: true,
+    allow_symbol_change: true,
+    details: true,
+    hotlist: true,
+    calendar: true,
+    // overrides: {
+    //   "hide_side_toolbar": "true",
+    //   "allow_symbol_change": "true",
+    //   "details": "true",
+    //   "hotlist": "true",
+    //   "calendar": "true",
 
-//   wid.activeChart().createOrderLine()
-//     .setTooltip("Additional order information")
-//     .setModifyTooltip("Modify order")
-//     .setCancelTooltip("Cancel order")
-//     .onMove(function() {
-//         this.setText("onMove called");
-//     })
-//     .onModify("onModify called", function(text) {
-//         this.setText(text);
-//     })
-//     .onCancel("onCancel called", function(text) {
-//         this.setText(text);
-//     })
-//     .setText("STOP: 73.5 (5,64%)")
-//     .setQuantity("2");
- };
+    // },
+  }));
+  // console.log(wid);
+  //   document.getElementById("btnShowChart").innerText = "Refresh Chart";
+  //   //Charting drawing trial
 
+  //   wid.activeChart().createOrderLine()
+  //     .setTooltip("Additional order information")
+  //     .setModifyTooltip("Modify order")
+  //     .setCancelTooltip("Cancel order")
+  //     .onMove(function() {
+  //         this.setText("onMove called");
+  //     })
+  //     .onModify("onModify called", function(text) {
+  //         this.setText(text);
+  //     })
+  //     .onCancel("onCancel called", function(text) {
+  //         this.setText(text);
+  //     })
+  //     .setText("STOP: 73.5 (5,64%)")
+  //     .setQuantity("2");
+};
 
 window.ChangeAPIDriver = function () {
   alert(document.getElementById("drp_APIDriver").value);
