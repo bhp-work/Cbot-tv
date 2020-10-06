@@ -36,19 +36,27 @@
   #demo {
     -webkit-box-shadow: 3px 8px 8px -4px #000000;
     box-shadow: 3px 8px 8px -4px #000000;
-    background: #F5F5F5;
+    background: silver;
     width: fit-content;
     padding: 1px;
+    border: #000000;
+    font-family: Cambria;
   }
 
   body#tinymce {
     background: #FFFFFF
   }
+  .body {
+			margin: 0px;
+		}
+		.hidden {
+			display: none;
+		} 
 </style>
 <body>
-  <table style="widows: 100%;" align="center" border="0">
-    <tr style="box-shadow: 0px 0px 0px 1px rgb(158, 11, 11); outline: thin solid" id="demo">
-      <td colspan="6">
+  <table style="widows: 100%;" align="center" border="0" id="demo">
+    <tr >
+      <td colspan="2">
         <!-- <input type="checkbox" id="chk_hide_side_toolbar" onchange="ChangeAPIToCryptoCompare();">
        Show Crypto Compare data -->
 
@@ -58,11 +66,23 @@
         <option id="Cryptocompare">Crypto Compare</option>
         <option id="CryptoXbot">Crypto-X-bot</option>
       </select>
+      <td style="text-align:right ; "><b>Theme:</b></td>
+      <td >
+        <!-- <input type="checkbox" id="chk_hide_side_toolbar" onchange="ChangeAPIToCryptoCompare();">
+       Show Crypto Compare data -->
+      
+
+       <select id="drp_theme" onchange="LoadChart();">
+        <!-- <option id="Binance">NASDAQNM</option> -->
+        <option id="White">White</option>
+        <option id="Dark">Gray</option>
+        <option id="Dark">Dark</option>
+      </select>
       </td>
     </tr>
-    <tr style="box-shadow: 0px 0px 0px 1px rgb(158, 11, 11); outline: thin solid" id="demo">
+    <tr >
       <td>
-        <h4>Exchanges-changed:</h4>
+        <b>Exchanges-changed:</b>
       </td>
       <td>
         <select id="exchange" onchange="LoadSymbolPairs();">
@@ -73,7 +93,7 @@
         </select>
       </td>
       <td style="text-align:right ; ">
-        <h4> Currency pair:</h4>
+        <b> Currency pair:</b>
       </td>
       <td>
         <select id="pairs" onchange="LoadChart();">
@@ -81,9 +101,9 @@
         </select>
       </td>
     </tr>
-    <tr style="outline: thin solid" id="demo">
+    <tr  >
       <td>
-        <h4>Tools:</h4>
+        <b>Tools:</b>
       </td>
       <td colspan="3">
         <input type="checkbox" id="chk_hide_side_toolbar" onchange="LoadChart();">
@@ -109,9 +129,9 @@
         </div>
       </td>
     </tr>
-    <tr style="outline: thin solid" id="demo">
+    <tr >
       <td>
-        <h4>Indicators:</h4>
+        <b>Indicators:</b>
       </td>
       <td colspan="3">
         <input type="checkbox" id="chk_bolinger" onchange="LoadChart();" value="BB@tv-basicstudies">
@@ -137,6 +157,14 @@
   </table>
   </br>
   <div style="align-content: center;border: rgb(158, 11, 11);" class="tradingview-widget-container" id="tv_chart_container"></div>
+  <div class="feature-point hidden" id="feature-point">
+		<svg class="feature-point__image" height="25" viewbox="0 0 32 32" width="25" xmlns="http://www.w3.org/2000/svg">
+			<rect fill="#9013FE" height="32" opacity="0.9" rx="16" width="32"></rect>
+			<path clip-rule="evenodd"
+				d="M15.1111 8.88892H16.8889V10.7404C17.6993 10.8764 18.4477 11.1951 19.0904 11.6528L20.3993 10.3438L21.6564 11.6009L20.3474 12.9099C20.805 13.5524 21.1237 14.3008 21.2596 15.1111H23.1111V16.8889H21.2596C21.1237 17.6992 20.805 18.4476 20.3474 19.0902L21.6565 20.3993L20.3994 21.6564L19.0904 20.3473C18.4477 20.8049 17.6993 21.1237 16.8889 21.2596V23.1111H15.1111V21.2596C14.3008 21.1237 13.5524 20.805 12.9099 20.3474L11.6009 21.6563L10.3438 20.3993L11.6528 19.0904C11.1951 18.4477 10.8764 17.6993 10.7404 16.8889H8.88892V15.1111H10.7404C10.8764 14.3007 11.1951 13.5523 11.6528 12.9097L10.3438 11.6007L11.6009 10.3436L12.9099 11.6526C13.5524 11.1951 14.3008 10.8764 15.1111 10.7404V8.88892ZM16 19.5556C17.9637 19.5556 19.5556 17.9637 19.5556 16C19.5556 14.0363 17.9637 12.4445 16 12.4445C14.0363 12.4445 12.4445 14.0363 12.4445 16C12.4445 17.9637 14.0363 19.5556 16 19.5556Z"
+				fill="white" fill-rule="evenodd"></path>
+		</svg>
+	
 </body>
  
 

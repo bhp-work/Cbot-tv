@@ -364,7 +364,7 @@
 				var minPrice = 99999, maxPrice = 0;
 				var minPriceTime, maxPriceTime;
 				udf_datafeed.resolveSymbol("AAPL", function(symbolInfo) {
-					udf_datafeed.getBars(symbolInfo, "D", time1, time2, function(bars) {
+					udf_datafeed.getBars(symbolInfo, "D-Ed", time1, time2, function(bars) {
 						bars.forEach(function(bar) {
 							if (bar.time / 1000 >= time1 && bar.time / 1000 <= time2) {
 								if (bar.high > maxPrice) {

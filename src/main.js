@@ -47,6 +47,8 @@ function getParameterByName(name) {
 
 window.LoadChart = function () {
   let selSymbol = document.getElementById("pairs").value;
+  let selTheme = document.getElementById("drp_theme").value;
+  //alert(selTheme);
   var bl_hide_side_toolbar;
   const bl_show_side_toolbar = document.getElementById("chk_hide_side_toolbar")
     .checked;
@@ -93,8 +95,70 @@ window.LoadChart = function () {
   // console.log(mrkup_studies);
   const exchange = document.getElementById("exchange").value;
   //alert("symbol:"+ exchange + ":" + selSymbol);
+  var featuresets = [
+    {
+      title: "header_symbol_search[on]",
+      nodeIdOrDataname: "header-toolbar-symbol-search",
+    },
+    {
+      title: "header_chart_type[on]",
+      nodeIdOrDataname: "header-toolbar-chart-styles",
+    },
+    {
+      title: "header_compare[on]",
+      nodeIdOrDataname: "header-toolbar-compare",
+    },
+    {
+      title: "header_undo_redo[on]",
+      nodeIdOrDataname: "header-toolbar-undo-redo",
+    },
+    {
+      title: "header_saveload[on]",
+      nodeIdOrDataname: "header-toolbar-save-load",
+    },
+    {
+      title: "header_settings[on]",
+      nodeIdOrDataname: "header-toolbar-properties",
+    },
+    {
+      title: "header_fullscreen_button[on]",
+      nodeIdOrDataname: "header-toolbar-fullscreen",
+    },
+    {
+      title: "header_screenshot[on]",
+      nodeIdOrDataname: "header-toolbar-screenshot",
+    },
+    {
+      title: "header_resolutions[on]",
+      nodeIdOrDataname: "header-toolbar-intervals",
+    },
+    {
+      title: "header_indicators[on]",
+      nodeIdOrDataname: "header-toolbar-indicators",
+    },
+    // {
+    //   title: "left_toolbar[on]",
+    //   nodeIdOrDataname: "drawing-toolbar",
+    // },
+    // {
+    //   title: "timezone_menu[on]",
+    //   nodeIdOrDataname: "time-zone-menu",
+    // },
+    // {
+    //   title: "go_to_date[on]",
+    //   nodeIdOrDataname: "go-to-date",
+    // },
+    // {
+    //   title: "timeframes_toolbar[on]",
+    //   nodeIdOrDataname: "date-ranges-tabs",
+    // },
+    // {
+    //   title: "display_market_status[on]",
+    //   nodeIdOrDataname: "market-status",
+    // },
+  ];
 
-  var wid = (window.tvWidget = new TradingView.widget({
+  var widget = (window.tvWidget = new TradingView.widget({
     //symbol: 'Bitfinex:BTC/USD', // default symbol
     interval: "1D", // default interval
     fullscreen: true, // displays the chart in the fullscreen mode
@@ -113,8 +177,8 @@ window.LoadChart = function () {
     charts_storage_api_version: "1.1",
     client_id: "tradingview.com",
     user_id: "public_user_id",
-    theme: getParameterByName("theme"),
-    theme: "light",
+   // theme: getParameterByName("theme"),
+    theme: selTheme,
     style: "1",
     locale: "en",
     toolbar_bg: "#f1f3f6",
@@ -122,8 +186,8 @@ window.LoadChart = function () {
     show_popup_button: true,
     popup_width: "1000",
     popup_height: "650",
-    symbol: exchange + ":" + selSymbol,
-      //symbol: "Binance:ETH/USDT", // default symbol
+    // symbol: exchange + ":" + selSymbol,
+    symbol: "Binance:ETH/USDT", // default symbol
     exchange: exchange,
     enable_publishing: bl_enable_publishing,
     withdateranges: bl_withdateranges,
@@ -148,7 +212,11 @@ window.LoadChart = function () {
     details: true,
     hotlist: true,
     calendar: true,
+
+    // custom_css_url should be related to library_path
+    custom_css_url: '../themed.css',
     // overrides: {
+    //   "custom_css_url": "charting_library_clonned_data/themed.css",
     //   "hide_side_toolbar": "true",
     //   "allow_symbol_change": "true",
     //   "details": "true",
@@ -156,26 +224,113 @@ window.LoadChart = function () {
     //   "calendar": "true",
 
     // },
+    overrides: {
+      "paneProperties.background": (selTheme=="Dark"?"#000000":(selTheme=="White"?"#FFFFFF":"#c0c0c0")),
+     // "paneProperties.vertGridProperties.color": "#454545",
+     // "paneProperties.horzGridProperties.color": "#454545",
+      "scalesProperties.textColor" : "#AAA",
+     
+    }
+    
   }));
-  // console.log(wid);
+  console.log(widget);
   //   document.getElementById("btnShowChart").innerText = "Refresh Chart";
   //   //Charting drawing trial
 
-  //   wid.activeChart().createOrderLine()
-  //     .setTooltip("Additional order information")
-  //     .setModifyTooltip("Modify order")
-  //     .setCancelTooltip("Cancel order")
-  //     .onMove(function() {
-  //         this.setText("onMove called");
-  //     })
-  //     .onModify("onModify called", function(text) {
-  //         this.setText(text);
-  //     })
-  //     .onCancel("onCancel called", function(text) {
-  //         this.setText(text);
-  //     })
-  //     .setText("STOP: 73.5 (5,64%)")
-  //     .setQuantity("2");
+ 
+  widget.onChartReady(function () {
+    //For header
+    widget.headerReady().then(function () {
+      var chartContainer = document.getElementById("tv_chart_container");
+
+      var iframe = chartContainer.firstChild;
+      var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+      //console.log("innerDoc");
+      //sconsole.log(innerDoc);
+      function addFeaturePoint(elemIdOrDataname, tooltip) {
+        var elemWhereAdd =
+          innerDoc.querySelector("#" + elemIdOrDataname) ||
+          innerDoc.querySelector("[data-name=" + elemIdOrDataname + "]");
+        //console.log(elemWhereAdd);
+        //  alert(tooltip);
+        if (!elemWhereAdd) {
+          console.error(
+            "Element with id or data-name" +
+              elemIdOrDataname +
+              " for featureset " +
+              tooltip +
+              " is not found"
+          );
+          return;
+        }
+
+        elemWhereAdd.style.position = "relative";
+
+        var pointTemplate = document.getElementById("feature-point");
+        var featurePoint = pointTemplate.cloneNode(true);
+        featurePoint.removeAttribute("id");
+        featurePoint.classList.remove("hidden");
+        featurePoint.setAttribute("title", tooltip);
+
+        elemWhereAdd.appendChild(featurePoint);
+      }
+
+      function removeFeaturePoint(elemIdOrDataname) {}
+
+      function addAllPoints() {
+        for (var i = 0; i < featuresets.length; i++) {
+          addFeaturePoint(
+            featuresets[i].nodeIdOrDataname,
+            featuresets[i].title
+          );
+        }
+      }
+
+      function removeAllPonts() {
+        var points = innerDoc.getElementsByClassName("feature-point");
+        while (points[0]) {
+          points[0].parentNode.removeChild(points[0]);
+        }
+      }
+
+      addAllPoints();
+
+      var symbolSearchField = innerDoc.getElementById(
+        "header-toolbar-symbol-search"
+      );
+
+      symbolSearchField.addEventListener(
+        "blur",
+        function () {
+          removeAllPonts();
+          addAllPoints();
+        },
+        true
+      );
+    });
+   
+    //for chart actions
+    widget.activeChart().createOrderLine()
+    .setTooltip("Additional order information")
+    .setModifyTooltip("Modify order")
+    .setCancelTooltip("Cancel order")
+    .onMove(function() {
+     
+        this.setText("onMove called");
+        alert("Moved");
+    })
+    .onModify("onModify called", function(text) {
+        this.setText(text);
+        alert("Modified");
+    })
+    .onCancel("onCancel called", function(text) {
+        this.setText(text);
+        alert("Cancelled");
+    })
+    .setText("STOP: 73.5 (5,64%)")
+    .setQuantity("2");
+
+  });
 };
 
 window.ChangeAPIDriver = function () {

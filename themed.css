@@ -20,7 +20,7 @@
 	--tv-color-pane-background-secondary: rgb(249, 185, 233);
 	--tv-color-toolbar-button-background-hover: rgb(244, 143, 177);
 	--tv-color-toolbar-button-background-secondary-hover: red;
-	--tv-color-toolbar-button-background-expanded: #f48fb1;
+	--tv-color-toolbar-button-background-expanded: rgb(244, 143, 177);
 	--tv-color-toolbar-button-text: rgb(136, 24, 79);
 	--tv-color-toolbar-button-text-hover: rgb(74, 20, 140);
 	--tv-color-toolbar-button-text-active: red;
@@ -28,26 +28,4 @@
 	--tv-color-item-active-text: rgb(6, 255, 6);
 	--tv-color-toolbar-toggle-button-background-active: red;
 	--tv-color-toolbar-toggle-button-background-active-hover: magenta;
-}
-/* .feature-point {
-	display: block;
-	position: absolute;
-	width: 25px;
-	height: 25px;
-	border-radius: 25px;
-	box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.25);
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-} */
-
-.feature-point__image {
-	transition: all 0.5s;
-	opacity: 0.8;
-	overflow: visible !important;
-}
-
-.feature-point__image:hover {
-	transform: rotate(-90deg);
-	opacity: 1;
 }
