@@ -309,6 +309,132 @@ window.LoadChart = function () {
       );
     });
    
+
+    var savedWidgetContent = null;
+    var savedTemplate = null;
+    widget.headerReady().then(function() {
+      function createHeaderButton(text, title, clickHandler, options) {
+        var button = widget.createButton(options);
+        button.setAttribute('title', title);
+        button.textContent =  text;
+        button.addEventListener('click', clickHandler);
+      }
+
+      createHeaderButton('save', 'Save chart', function() {
+        widget.save(function(data) {
+          savedWidgetContent = data;
+          console.log("Save chart Data:");
+          console.log(data);
+          alert('Saved');
+        });
+      });
+
+      createHeaderButton('load', 'Load chart', function() {
+        if (savedWidgetContent) {
+          widget.load(savedWidgetContent);
+        }
+      });
+
+      createHeaderButton('load reference', 'Load reference', function() {
+        widget.load(referenceChart);
+      });
+
+      createHeaderButton('load reference 2', 'Load reference 2', function() {
+        widget.load(referenceChart2);
+      });
+
+      createHeaderButton('save template (-i)', '', function() {
+        savedTemplate = widget.activeChart().createStudyTemplate({ saveInterval: false });
+      });
+
+      createHeaderButton('save template (+i)', '', function() {
+        savedTemplate = widget.activeChart().createStudyTemplate({ saveInterval: true });
+      });
+
+      createHeaderButton('apply template', '', function() {
+        if (savedTemplate) {
+          widget.chart().applyStudyTemplate(savedTemplate);
+        }
+      });
+
+      createHeaderButton('F, 2D', '', function() {
+        widget.setSymbol('F', '2D');
+      });
+
+      createHeaderButton('Clear marks', '', function() {
+        widget.chart().clearMarks();
+      });
+
+      createHeaderButton('+BB', 'Insert Bollinger Bands', function() {
+        console.log(widget.chart().createStudy(
+            'Bollinger Bands',
+            false,
+            false,
+            [
+              10 + parseInt(Math.random() * 10),
+              3 + parseInt(Math.random() * 3)
+            ]
+        ));
+      });
+
+      createHeaderButton('+MA', 'Insert Moving Average', function() {
+        console.log(widget.chart().createStudy(
+            'Moving Average',
+            false,
+            false,
+            [10 + parseInt(Math.random() * 10)]
+        ));
+      }, { align: 'right' });
+
+      createHeaderButton('+MA++', 'Insert Moving Average', function() {
+        console.log(widget.chart().createStudy(
+            'Moving Average',
+            false,
+            false,
+            [10 + parseInt(Math.random() * 10)],
+            undefined,
+            { 'plot.color.0': '#FF0000' }
+        ));
+      }, { align: 'right' });
+
+      createHeaderButton('+Stoch', 'Insert Stochastic', function() {
+        console.log(widget.chart().createStudy(
+            'Stochastic',
+            false,
+            false,
+            [12, 3, 3],
+            undefined,
+            {
+              '%d.color': '#000000',
+              '%k.color': '#00FF00',
+            }
+        ));
+      }, { align: 'right' });
+
+      createHeaderButton('new order', '', function() {
+        widget.chart().createOrderLine();
+      });
+
+      createHeaderButton('rm all studies', '', function() {
+        widget.chart().removeAllStudies();
+      });
+
+      createHeaderButton('rm all shapes', '', function() {
+        widget.chart().removeAllShapes();
+      });
+
+      createHeaderButton('set view', '', function() {
+        widget.chart().setVisibleRange({
+          from: Date.UTC(2012, 2, 3) / 1000,
+          to: Date.UTC(2013, 3, 3) / 1000
+        });
+      });
+
+      createHeaderButton('get range', '', function() {
+        console.log(widget.activeChart().getVisibleRange());
+      });
+    });
+
     //for chart actions
     widget.activeChart().createOrderLine()
     .setTooltip("Additional order information")
@@ -330,7 +456,22 @@ window.LoadChart = function () {
     .setText("STOP: 73.5 (5,64%)")
     .setQuantity("2");
 
+
+var order = widget.chart().createOrderLine()
+    .setText("Buy Line")
+    .setLineLength(3) 
+    .setLineStyle(0) 
+    .setQuantity("5 Qnty")
+    order.setPrice("380");
+    
   });
+
+
+
+
+  
+
+
 };
 
 window.ChangeAPIDriver = function () {
