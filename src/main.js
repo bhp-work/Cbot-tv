@@ -160,7 +160,7 @@ window.LoadChart = function () {
 
   var widget = (window.tvWidget = new TradingView.widget({
     //symbol: 'Bitfinex:BTC/USD', // default symbol
-    interval: "1D", // default interval
+    interval: "1", // default interval
     fullscreen: true, // displays the chart in the fullscreen mode
     container_id: "tv_chart_container",
     datafeed: Datafeed,
@@ -320,50 +320,50 @@ window.LoadChart = function () {
         button.addEventListener('click', clickHandler);
       }
 
-      createHeaderButton('save', 'Save chart', function() {
-        widget.save(function(data) {
-          savedWidgetContent = data;
-          console.log("Save chart Data:");
-          console.log(data);
-          alert('Saved');
-        });
-      });
+      // createHeaderButton('save', 'Save chart', function() {
+      //   widget.save(function(data) {
+      //     savedWidgetContent = data;
+      //     console.log("Save chart Data:");
+      //     console.log(data);
+      //     alert('Saved');
+      //   });
+      // });
 
-      createHeaderButton('load', 'Load chart', function() {
-        if (savedWidgetContent) {
-          widget.load(savedWidgetContent);
-        }
-      });
+      // createHeaderButton('load', 'Load chart', function() {
+      //   if (savedWidgetContent) {
+      //     widget.load(savedWidgetContent);
+      //   }
+      // });
 
-      createHeaderButton('load reference', 'Load reference', function() {
-        widget.load(referenceChart);
-      });
+      // createHeaderButton('load reference', 'Load reference', function() {
+      //   widget.load(referenceChart);
+      // });
 
-      createHeaderButton('load reference 2', 'Load reference 2', function() {
-        widget.load(referenceChart2);
-      });
+      // createHeaderButton('load reference 2', 'Load reference 2', function() {
+      //   widget.load(referenceChart2);
+      // });
 
-      createHeaderButton('save template (-i)', '', function() {
-        savedTemplate = widget.activeChart().createStudyTemplate({ saveInterval: false });
-      });
+      // createHeaderButton('save template (-i)', '', function() {
+      //   savedTemplate = widget.activeChart().createStudyTemplate({ saveInterval: false });
+      // });
 
-      createHeaderButton('save template (+i)', '', function() {
-        savedTemplate = widget.activeChart().createStudyTemplate({ saveInterval: true });
-      });
+      // createHeaderButton('save template (+i)', '', function() {
+      //   savedTemplate = widget.activeChart().createStudyTemplate({ saveInterval: true });
+      // });
 
-      createHeaderButton('apply template', '', function() {
-        if (savedTemplate) {
-          widget.chart().applyStudyTemplate(savedTemplate);
-        }
-      });
+      // createHeaderButton('apply template', '', function() {
+      //   if (savedTemplate) {
+      //     widget.chart().applyStudyTemplate(savedTemplate);
+      //   }
+      // });
 
-      createHeaderButton('F, 2D', '', function() {
-        widget.setSymbol('F', '2D');
-      });
+      // createHeaderButton('F, 2D', '', function() {
+      //   widget.setSymbol('F', '2D');
+      // });
 
-      createHeaderButton('Clear marks', '', function() {
-        widget.chart().clearMarks();
-      });
+      // createHeaderButton('Clear marks', '', function() {
+      //   widget.chart().clearMarks();
+      // });
 
       createHeaderButton('+BB', 'Insert Bollinger Bands', function() {
         console.log(widget.chart().createStudy(
@@ -384,18 +384,35 @@ window.LoadChart = function () {
             false,
             [10 + parseInt(Math.random() * 10)]
         ));
-      }, { align: 'right' });
-
-      createHeaderButton('+MA++', 'Insert Moving Average', function() {
+      }, { align: 'left' });
+      
+      createHeaderButton('RSI', 'Insert RSI', function() {
         console.log(widget.chart().createStudy(
-            'Moving Average',
+            'Relative Strength Index',
             false,
             false,
-            [10 + parseInt(Math.random() * 10)],
-            undefined,
-            { 'plot.color.0': '#FF0000' }
+            [14]
         ));
-      }, { align: 'right' });
+      }, { align: 'left' });
+      createHeaderButton('MACD', 'Insert MACD', function() {
+        console.log(widget.chart().createStudy(
+            'MACD',
+            false,
+            false,
+            [14]
+        ));
+      }, { align: 'left' });
+
+      // createHeaderButton('+MA++', 'Insert Moving Average', function() {
+      //   console.log(widget.chart().createStudy(
+      //       'Moving Average',
+      //       false,
+      //       false,
+      //       [10 + parseInt(Math.random() * 10)],
+      //       undefined,
+      //       { 'plot.color.0': '#FF0000' }
+      //   ));
+      // }, { align: 'left' });
 
       createHeaderButton('+Stoch', 'Insert Stochastic', function() {
         console.log(widget.chart().createStudy(
@@ -409,31 +426,33 @@ window.LoadChart = function () {
               '%k.color': '#00FF00',
             }
         ));
-      }, { align: 'right' });
+      }, { align: 'left' });
 
       createHeaderButton('new order', '', function() {
         widget.chart().createOrderLine();
+       
       });
 
-      createHeaderButton('rm all studies', '', function() {
+      createHeaderButton('Clear Studies', '', function() {
         widget.chart().removeAllStudies();
       });
 
-      createHeaderButton('rm all shapes', '', function() {
+      createHeaderButton('Clear shapes', '', function() {
         widget.chart().removeAllShapes();
       });
 
-      createHeaderButton('set view', '', function() {
-        widget.chart().setVisibleRange({
-          from: Date.UTC(2012, 2, 3) / 1000,
-          to: Date.UTC(2013, 3, 3) / 1000
-        });
-      });
+    //   createHeaderButton('set view', '', function() {
+    //     widget.chart().setVisibleRange({
+    //       from: Date.UTC(2012, 2, 3) / 1000,
+    //       to: Date.UTC(2013, 3, 3) / 1000
+    //     });
+    //   });
 
-      createHeaderButton('get range', '', function() {
-        console.log(widget.activeChart().getVisibleRange());
-      });
-    });
+    //   createHeaderButton('get range', '', function() {
+    //     console.log(widget.activeChart().getVisibleRange());
+    //   });
+
+     });
 
     //for chart actions
     widget.activeChart().createOrderLine()
@@ -463,17 +482,128 @@ var order = widget.chart().createOrderLine()
     .setLineStyle(0) 
     .setQuantity("5 Qnty")
     order.setPrice("380");
+
+
+    widget.chart().createMultipointShape([
+      {
+          time: toTimestamp(new Date('10/09/2020 12:00:00'))
+          , price: 348.50
+      },
+      {
+          time: toTimestamp(new Date('10/09/2020 12:30:00'))
+          , price: 350.20
+      }
+    ], {
+      shape: 'trend_line',
+    })
+
+//     const from = Date.now() / 1000 - 60*30; 
+// const to = Date.now() / 1000;
+// widget.activeChart().createMultipointShape(
+//     [{ time: from, price: 351 }, { time: to, price: 353 }],
+//     {
+//         shape: "trend_line",
+//         lock: true,
+//         disableSelection: true,
+//         disableSave: true,
+//         disableUndo: true,
+//         text: "Line2",
+//     }
     
+// );
+widget.activeChart().createMultipointShape(
+  [{ time: 1602233963 }],
+  {
+      shape: "arrow_down",
+      lock: true,
+      disableSelection: true,
+      disableSave: true,
+      disableUndo: true,
+      text: "Sell",
+  }
+
+
+);
+widget.activeChart().createMultipointShape(
+  [{ time: 1602235711 }],
+  {
+      shape: "arrow_up",
+      lock: true,
+      disableSelection: true,
+      disableSave: true,
+      disableUndo: true,
+      text: "Buy",
+  }
+
+
+);
+widget.activeChart().createMultipointShape(
+  [{ time: 1602233963 }, { time: 1602235711 }],
+  {
+      shape: "trend_line",
+      lock: true,
+      disableSelection: true,
+      disableSave: true,
+      disableUndo: true,
+      text: "Line2",
+  }
+  
+);
+widget.activeChart().createMultipointShape(
+  [{ time: 1602236110 }, { time: 1602237610 }],
+  {
+      shape: "trend_line",
+      lock: true,
+      disableSelection: true,
+      disableSave: true,
+      disableUndo: true,
+      text: "Line2",
+  }
+  
+);
+widget.activeChart().createMultipointShape(
+  [{ time: 1602236110 }],
+  {
+      shape: "arrow_up",
+      lock: true,
+      disableSelection: true,
+      disableSave: true,
+      disableUndo: true,
+      text: "Buy",
+    //  icon:"Oxf17b",
+  }
+
+
+);
+widget.activeChart().createMultipointShape(
+  [{ time: 1602237610 }],
+  {
+      shape: "arrow_down",
+      lock: true,
+      disableSelection: true,
+      disableSave: true,
+      disableUndo: true,
+      text: "Sell",
+    //  icon:"Oxf17b",
+  }
+
+
+);
+
+
   });
 
 
-
-
-  
-
-
 };
+
+
 
 window.ChangeAPIDriver = function () {
   alert(document.getElementById("drp_APIDriver").value);
 };
+
+function toTimestamp(strDate){
+ // alert(strDate.getTimezoneOffset());
+  var datum = Date.parse(strDate)+(strDate.getTimezoneOffset()*1000);
+  return datum/1000;
+ } 

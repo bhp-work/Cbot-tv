@@ -61,6 +61,7 @@ socket.on('m', data => {
 			close: tradePrice,
 		};
 		console.log('[socket] Update the latest bar by price', tradePrice);
+		console.log('[socket] Update the latest bar by tradeTime', tradeTime);
 	}
 	subscriptionItem.lastDailyBar = bar;
 
