@@ -7,12 +7,10 @@ var widget = null;
 
 //Get exchange list from API
 getAllExchangesForDropdown().then(function (result) {
-  //console.log(result.length);
-  var markupPair = "";
+        var markupPair = "";
   for (var i = 0; i < result.length; i++) {
     markupPair += '<option id="' + result[i] + '">' + result[i] + "</option>";
   }
-  //	console.log(markupPair);
   document.getElementById("exchange").innerHTML = markupPair;
 
  // LoadSymbolPairs();
@@ -44,12 +42,11 @@ function getParameterByName(name) {
     ? ""
     : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
-//LoadChart();
 
 window.LoadChart = function () {
+ // alert(document.getElementById("drp_lang"));
   let selSymbol = document.getElementById("pairs").value;
   let selTheme = document.getElementById("drp_theme").value;
-  //alert(selTheme);
   var bl_hide_side_toolbar;
   const bl_show_side_toolbar = document.getElementById("chk_hide_side_toolbar")
     .checked;
@@ -93,9 +90,8 @@ window.LoadChart = function () {
     }
   }
 
-  // console.log(mrkup_studies);
   const exchange = document.getElementById("exchange").value;
-  //alert("symbol:"+ exchange + ":" + selSymbol);
+
   var featuresets = [
     {
       title: "header_symbol_search[on]",
@@ -162,27 +158,23 @@ window.LoadChart = function () {
    widget = (window.tvWidget = new TradingView.widget({
     //symbol: 'Bitfinex:BTC/USD', // default symbol
     interval: "1", // default interval
-    fullscreen: true, // displays the chart in the fullscreen mode
+    fullscreen: false, // displays the chart in the fullscreen mode
     container_id: "tv_chart_container",
     datafeed: Datafeed,
-    //	datafeed: new Datafeeds.UDFCompatibleDatafeed = function(datafeed),
-    //	datafeed: new Datafeed.UDFCompatibleDatafeed("https://min-api.cryptocompare.com"),
-
     library_path: "charting_library_clonned_data/charting_library/",
     locale: getParameterByName("lang") || "en",
     disabled_features: ["use_localstorage_for_settings"],
     enabled_features: ["study_templates"],
     charts_storage_url: "https://saveload.tradingview.com",
-
     //Extra features added as per widget
     charts_storage_api_version: "1.1",
     client_id: "tradingview.com",
     user_id: "public_user_id",
-    // theme: getParameterByName("theme"),
     theme: selTheme,
     style: "1",
-    locale: "en",
-    toolbar_bg: "#f1f3f6",
+   // locale: "en",
+    locale:document.getElementById("drp_lang").value,
+    //toolbar_bg: "#f1f3f6",
     range: "3m",
     show_popup_button: true,
     popup_width: "1000",
@@ -200,7 +192,7 @@ window.LoadChart = function () {
     description: selSymbol,
     type: "cypro",
     width: "100%",
-    height: "500px",
+    height: "600px",
     has_no_volume: true,
     //supported_resolutions: ["1D", "1W", "1M"],
     volume_precision: 2,
@@ -213,9 +205,9 @@ window.LoadChart = function () {
     details: true,
     hotlist: true,
     calendar: true,
-
+    //autosize: true,
     // custom_css_url should be related to library_path
-    custom_css_url: "../themed.css",
+    custom_css_url: "../themes.css",
     // overrides: {
     //   "custom_css_url": "charting_library_clonned_data/themed.css",
     //   "hide_side_toolbar": "true",
@@ -224,8 +216,12 @@ window.LoadChart = function () {
     //   "hotlist": "true",
     //   "calendar": "true",
 
-    // },
-    overrides: {
+    // }, 
+    // disabled_features: ["move_logo_to_main_pane"],
+    // enabled_features: ["header_widget", "left_toolbar",],
+   // load_last_chart: true, //makes chart slower
+  // loading_screen: { backgroundColor: "#000000" },
+     overrides: {
       "paneProperties.background":
         selTheme == "Dark"
           ? "#000000"
@@ -236,6 +232,26 @@ window.LoadChart = function () {
       // "paneProperties.horzGridProperties.color": "#454545",
       "scalesProperties.textColor": "#AAA",
     },
+//     studies_access: {
+//       type: "white",
+//       tools: [
+//           {
+//               name: "Bollinger Bands",
+//               grayed: true
+//           },
+         
+//       ]
+//   },
+//   drawings_access: {
+//     type: 'black',
+//     tools: [
+//         {
+//             name: 'Trend Line',
+//             grayed: true
+//         },
+//     ]
+// },
+
   }));
   // console.log(widget);
   //   document.getElementById("btnShowChart").innerText = "Refresh Chart";
