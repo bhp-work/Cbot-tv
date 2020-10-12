@@ -3,8 +3,9 @@ import Datafeed from "./datafeed.js";
 //import Datafeed from "../datafeeds/udf/lib/udf-compatible-datafeed.js"
 import { getAllExchangesForDropdown, getAllSymbolPairs } from "./helpers.js";
 
-//Get exchange list from API
+var widget = null;
 
+//Get exchange list from API
 getAllExchangesForDropdown().then(function (result) {
   //console.log(result.length);
   var markupPair = "";
@@ -158,7 +159,7 @@ window.LoadChart = function () {
     // },
   ];
 
-  var widget = (window.tvWidget = new TradingView.widget({
+   widget = (window.tvWidget = new TradingView.widget({
     //symbol: 'Bitfinex:BTC/USD', // default symbol
     interval: "1", // default interval
     fullscreen: true, // displays the chart in the fullscreen mode
@@ -177,7 +178,7 @@ window.LoadChart = function () {
     charts_storage_api_version: "1.1",
     client_id: "tradingview.com",
     user_id: "public_user_id",
-   // theme: getParameterByName("theme"),
+    // theme: getParameterByName("theme"),
     theme: selTheme,
     style: "1",
     locale: "en",
@@ -214,7 +215,7 @@ window.LoadChart = function () {
     calendar: true,
 
     // custom_css_url should be related to library_path
-    custom_css_url: '../themed.css',
+    custom_css_url: "../themed.css",
     // overrides: {
     //   "custom_css_url": "charting_library_clonned_data/themed.css",
     //   "hide_side_toolbar": "true",
@@ -225,19 +226,21 @@ window.LoadChart = function () {
 
     // },
     overrides: {
-      "paneProperties.background": (selTheme=="Dark"?"#000000":(selTheme=="White"?"#FFFFFF":"#c0c0c0")),
-     // "paneProperties.vertGridProperties.color": "#454545",
-     // "paneProperties.horzGridProperties.color": "#454545",
-      "scalesProperties.textColor" : "#AAA",
-     
-    }
-    
+      "paneProperties.background":
+        selTheme == "Dark"
+          ? "#000000"
+          : selTheme == "White"
+            ? "#FFFFFF"
+            : "#c0c0c0",
+      // "paneProperties.vertGridProperties.color": "#454545",
+      // "paneProperties.horzGridProperties.color": "#454545",
+      "scalesProperties.textColor": "#AAA",
+    },
   }));
-  console.log(widget);
+  // console.log(widget);
   //   document.getElementById("btnShowChart").innerText = "Refresh Chart";
   //   //Charting drawing trial
 
- 
   widget.onChartReady(function () {
     //For header
     widget.headerReady().then(function () {
@@ -256,10 +259,10 @@ window.LoadChart = function () {
         if (!elemWhereAdd) {
           console.error(
             "Element with id or data-name" +
-              elemIdOrDataname +
-              " for featureset " +
-              tooltip +
-              " is not found"
+            elemIdOrDataname +
+            " for featureset " +
+            tooltip +
+            " is not found"
           );
           return;
         }
@@ -275,7 +278,7 @@ window.LoadChart = function () {
         elemWhereAdd.appendChild(featurePoint);
       }
 
-      function removeFeaturePoint(elemIdOrDataname) {}
+      function removeFeaturePoint(elemIdOrDataname) { }
 
       function addAllPoints() {
         for (var i = 0; i < featuresets.length; i++) {
@@ -308,16 +311,15 @@ window.LoadChart = function () {
         true
       );
     });
-   
 
     var savedWidgetContent = null;
     var savedTemplate = null;
-    widget.headerReady().then(function() {
+    widget.headerReady().then(function () {
       function createHeaderButton(text, title, clickHandler, options) {
         var button = widget.createButton(options);
-        button.setAttribute('title', title);
-        button.textContent =  text;
-        button.addEventListener('click', clickHandler);
+        button.setAttribute("title", title);
+        button.textContent = text;
+        button.addEventListener("click", clickHandler);
       }
 
       // createHeaderButton('save', 'Save chart', function() {
@@ -365,43 +367,52 @@ window.LoadChart = function () {
       //   widget.chart().clearMarks();
       // });
 
-      createHeaderButton('+BB', 'Insert Bollinger Bands', function() {
-        console.log(widget.chart().createStudy(
-            'Bollinger Bands',
-            false,
-            false,
-            [
+      createHeaderButton("+BB", "Insert Bollinger Bands", function () {
+        console.log(
+          widget
+            .chart()
+            .createStudy("Bollinger Bands", false, false, [
               10 + parseInt(Math.random() * 10),
-              3 + parseInt(Math.random() * 3)
-            ]
-        ));
+              3 + parseInt(Math.random() * 3),
+            ])
+        );
       });
 
-      createHeaderButton('+MA', 'Insert Moving Average', function() {
-        console.log(widget.chart().createStudy(
-            'Moving Average',
-            false,
-            false,
-            [10 + parseInt(Math.random() * 10)]
-        ));
-      }, { align: 'left' });
-      
-      createHeaderButton('RSI', 'Insert RSI', function() {
-        console.log(widget.chart().createStudy(
-            'Relative Strength Index',
-            false,
-            false,
-            [14]
-        ));
-      }, { align: 'left' });
-      createHeaderButton('MACD', 'Insert MACD', function() {
-        console.log(widget.chart().createStudy(
-            'MACD',
-            false,
-            false,
-            [14]
-        ));
-      }, { align: 'left' });
+      createHeaderButton(
+        "+MA",
+        "Insert Moving Average",
+        function () {
+          console.log(
+            widget
+              .chart()
+              .createStudy("Moving Average", false, false, [
+                10 + parseInt(Math.random() * 10),
+              ])
+          );
+        },
+        { align: "left" }
+      );
+
+      createHeaderButton(
+        "RSI",
+        "Insert RSI",
+        function () {
+          console.log(
+            widget
+              .chart()
+              .createStudy("Relative Strength Index", false, false, [14])
+          );
+        },
+        { align: "left" }
+      );
+      createHeaderButton(
+        "MACD",
+        "Insert MACD",
+        function () {
+          console.log(widget.chart().createStudy("MACD", false, false, [14]));
+        },
+        { align: "left" }
+      );
 
       // createHeaderButton('+MA++', 'Insert Moving Average', function() {
       //   console.log(widget.chart().createStudy(
@@ -414,196 +425,219 @@ window.LoadChart = function () {
       //   ));
       // }, { align: 'left' });
 
-      createHeaderButton('+Stoch', 'Insert Stochastic', function() {
-        console.log(widget.chart().createStudy(
-            'Stochastic',
-            false,
-            false,
-            [12, 3, 3],
-            undefined,
-            {
-              '%d.color': '#000000',
-              '%k.color': '#00FF00',
-            }
-        ));
-      }, { align: 'left' });
+      createHeaderButton(
+        "+Stoch",
+        "Insert Stochastic",
+        function () {
+          console.log(
+            widget
+              .chart()
+              .createStudy("Stochastic", false, false, [12, 3, 3], undefined, {
+                "%d.color": "#000000",
+                "%k.color": "#00FF00",
+              })
+          );
+        },
+        { align: "left" }
+      );
 
-      createHeaderButton('new order', '', function() {
+      createHeaderButton("new order", "", function () {
         widget.chart().createOrderLine();
-       
       });
 
-      createHeaderButton('Clear Studies', '', function() {
+      createHeaderButton("Clear Studies", "", function () {
         widget.chart().removeAllStudies();
       });
 
-      createHeaderButton('Clear shapes', '', function() {
+      createHeaderButton("Clear shapes", "", function () {
         widget.chart().removeAllShapes();
       });
 
-    //   createHeaderButton('set view', '', function() {
-    //     widget.chart().setVisibleRange({
-    //       from: Date.UTC(2012, 2, 3) / 1000,
-    //       to: Date.UTC(2013, 3, 3) / 1000
-    //     });
-    //   });
+      //   createHeaderButton('set view', '', function() {
+      //     widget.chart().setVisibleRange({
+      //       from: Date.UTC(2012, 2, 3) / 1000,
+      //       to: Date.UTC(2013, 3, 3) / 1000
+      //     });
+      //   });
 
-    //   createHeaderButton('get range', '', function() {
-    //     console.log(widget.activeChart().getVisibleRange());
-    //   });
-
-     });
+      //   createHeaderButton('get range', '', function() {
+      //     console.log(widget.activeChart().getVisibleRange());
+      //   });
+    });
 
     //for chart actions
-    widget.activeChart().createOrderLine()
-    .setTooltip("Additional order information")
-    .setModifyTooltip("Modify order")
-    .setCancelTooltip("Cancel order")
-    .onMove(function() {
-     
+    widget
+      .activeChart()
+      .createOrderLine()
+      .setTooltip("Additional order information")
+      .setModifyTooltip("Modify order")
+      .setCancelTooltip("Cancel order")
+      .onMove(function () {
         this.setText("onMove called");
         alert("Moved");
-    })
-    .onModify("onModify called", function(text) {
+      })
+      .onModify("onModify called", function (text) {
         this.setText(text);
         alert("Modified");
-    })
-    .onCancel("onCancel called", function(text) {
+      })
+      .onCancel("onCancel called", function (text) {
         this.setText(text);
         alert("Cancelled");
-    })
-    .setText("STOP: 73.5 (5,64%)")
-    .setQuantity("2");
+      })
+      .setText("STOP: 73.5 (5,64%)")
+      .setQuantity("2");
 
-
-var order = widget.chart().createOrderLine()
-    .setText("Buy Line")
-    .setLineLength(3) 
-    .setLineStyle(0) 
-    .setQuantity("5 Qnty")
+    var order = widget
+      .chart()
+      .createOrderLine()
+      .setText("Buy Line")
+      .setLineLength(3)
+      .setLineStyle(0)
+      .setQuantity("5 Qnty");
     order.setPrice("380");
 
-
-    widget.chart().createMultipointShape([
+    widget.chart().createMultipointShape(
+      [
+        {
+          time: toTimestamp(new Date("10/09/2020 12:00:00")),
+          price: 348.5,
+        },
+        {
+          time: toTimestamp(new Date("10/09/2020 12:30:00")),
+          price: 350.2,
+        },
+      ],
       {
-          time: toTimestamp(new Date('10/09/2020 12:00:00'))
-          , price: 348.50
-      },
-      {
-          time: toTimestamp(new Date('10/09/2020 12:30:00'))
-          , price: 350.20
+        shape: "trend_line",
       }
-    ], {
-      shape: 'trend_line',
-    })
+    );
 
-//     const from = Date.now() / 1000 - 60*30; 
-// const to = Date.now() / 1000;
-// widget.activeChart().createMultipointShape(
-//     [{ time: from, price: 351 }, { time: to, price: 353 }],
-//     {
-//         shape: "trend_line",
-//         lock: true,
-//         disableSelection: true,
-//         disableSave: true,
-//         disableUndo: true,
-//         text: "Line2",
-//     }
-    
-// );
-widget.activeChart().createMultipointShape(
-  [{ time: 1602233963 }],
-  {
-      shape: "arrow_down",
-      lock: true,
-      disableSelection: true,
-      disableSave: true,
-      disableUndo: true,
-      text: "Sell",
-  }
+    //     const from = Date.now() / 1000 - 60*30;
+    // const to = Date.now() / 1000;
+    // widget.activeChart().createMultipointShape(
+    //     [{ time: from, price: 351 }, { time: to, price: 353 }],
+    //     {
+    //         shape: "trend_line",
+    //         lock: true,
+    //         disableSelection: true,
+    //         disableSave: true,
+    //         disableUndo: true,
+    //         text: "Line2",
+    //     }
 
-
-);
-widget.activeChart().createMultipointShape(
-  [{ time: 1602235711 }],
-  {
-      shape: "arrow_up",
-      lock: true,
-      disableSelection: true,
-      disableSave: true,
-      disableUndo: true,
-      text: "Buy",
-  }
-
-
-);
-widget.activeChart().createMultipointShape(
-  [{ time: 1602233963 }, { time: 1602235711 }],
-  {
-      shape: "trend_line",
-      lock: true,
-      disableSelection: true,
-      disableSave: true,
-      disableUndo: true,
-      text: "Line2",
-  }
-  
-);
-widget.activeChart().createMultipointShape(
-  [{ time: 1602236110 }, { time: 1602237610 }],
-  {
-      shape: "trend_line",
-      lock: true,
-      disableSelection: true,
-      disableSave: true,
-      disableUndo: true,
-      text: "Line2",
-  }
-  
-);
-widget.activeChart().createMultipointShape(
-  [{ time: 1602236110 }],
-  {
-      shape: "arrow_up",
-      lock: true,
-      disableSelection: true,
-      disableSave: true,
-      disableUndo: true,
-      text: "Buy",
-    //  icon:"Oxf17b",
-  }
-
-
-);
-widget.activeChart().createMultipointShape(
-  [{ time: 1602237610 }],
-  {
-      shape: "arrow_down",
-      lock: true,
-      disableSelection: true,
-      disableSave: true,
-      disableUndo: true,
-      text: "Sell",
-    //  icon:"Oxf17b",
-  }
-
-
-);
-
-
+    // );
+    // widget.activeChart().createMultipointShape([{ time: 1602233963 }], {
+    //   shape: "arrow_down",
+    //   lock: true,
+    //   disableSelection: true,
+    //   disableSave: true,
+    //   disableUndo: true,
+    //   text: "Sell",
+    // });
+    // widget.activeChart().createMultipointShape([{ time: 1602235711 }], {
+    //   shape: "arrow_up",
+    //   lock: true,
+    //   disableSelection: true,
+    //   disableSave: true,
+    //   disableUndo: true,
+    //   text: "Buy",
+    // });
+    // widget
+    //   .activeChart()
+    //   .createMultipointShape([{ time: 1602233963 }, { time: 1602235711 }], {
+    //     shape: "trend_line",
+    //     lock: true,
+    //     disableSelection: true,
+    //     disableSave: true,
+    //     disableUndo: true,
+    //     text: "Line2",
+    //   });
+    // widget
+    //   .activeChart()
+    //   .createMultipointShape([{ time: 1602236110 }, { time: 1602237610 }], {
+    //     shape: "trend_line",
+    //     lock: true,
+    //     disableSelection: true,
+    //     disableSave: true,
+    //     disableUndo: true,
+    //     text: "Line2",
+    //   });
+    // widget.activeChart().createMultipointShape([{ time: 1602236110 }], {
+    //   shape: "arrow_up",
+    //   lock: true,
+    //   disableSelection: true,
+    //   disableSave: true,
+    //   disableUndo: true,
+    //   text: "Buy",
+    //   //  icon:"Oxf17b",
+    // });
+    // widget.activeChart().createMultipointShape([{ time: 1602237610 }], {
+    //   shape: "arrow_down",
+    //   lock: true,
+    //   disableSelection: true,
+    //   disableSave: true,
+    //   disableUndo: true,
+    //   text: "Sell",
+    //   //  icon:"Oxf17b",
+    // });
   });
-
-
 };
-
 
 
 window.ChangeAPIDriver = function () {
   alert(document.getElementById("drp_APIDriver").value);
 };
 
-function toTimestamp(strDate){
- // alert(strDate.getTimezoneOffset());
-  var datum = Date.parse(strDate)+(strDate.getTimezoneOffset()*1000);
-  return datum/1000;
- } 
+function toTimestamp(strDate) {
+   //alert(strDate.getTimezoneOffset());
+  var datum = Date.parse(strDate) + strDate.getTimezoneOffset() * 1000;
+  return datum / 1000;
+}
+
+function CustomCreateShape(time,shape,text){
+  widget.activeChart().createMultipointShape([{ time: time }], {
+  shape: shape,
+  lock: false,
+  disableSelection: true,
+  disableSave: false,
+  disableUndo: false,
+  text: text,
+});
+ 
+}
+function CustomCreateLine(timeto,timefrom,shape,text){
+  widget
+      .activeChart()
+      .createMultipointShape([{ time: timeto }, { time: timefrom }], {
+        shape:shape,
+        lock: false,
+        disableSelection: true,
+        disableSave: false,
+        disableUndo: false,
+        text: text,
+      });
+
+ 
+}
+window.LoadChartShapes = function () {
+  alert(Date.parse('10-10-2020 14:30:00 UTC'));
+  CustomCreateShape(Date.parse('10-10-2020 14:30:00 UTC')/1000,"arrow_up","Buy-1");
+  CustomCreateShape(Date.parse('10-10-2020 14:36:00 UTC')/1000,"arrow_down","Sell-1");
+  
+  CustomCreateShape(Date.parse('10-10-2020 14:46:00 UTC')/1000,"arrow_up","Buy-2");
+  CustomCreateShape(Date.parse('10-10-2020 14:50:00 UTC')/1000,"arrow_down","Sell-2");
+  
+  
+  CustomCreateShape(1602236110,"arrow_up","Buy-3");
+  CustomCreateShape(1602237610,"arrow_down","Sell-3");
+  
+  CustomCreateLine(Date.parse('10-10-2020 14:30:00 UTC')/1000,Date.parse('10-10-2020 14:36:00 UTC')/1000,"trend_line","Line1");
+  CustomCreateLine(Date.parse('10-10-2020 14:46:00 UTC')/1000,Date.parse('10-10-2020 14:50:00 UTC')/1000,"trend_line","Line2");
+
+  
+  CustomCreateShape(1602238610,"arrow_up","Buy-4");
+  CustomCreateShape(1602242561,"arrow_down","Sell-4");
+  CustomCreateLine(1602238610,1602242561,"trend_line","Line3");
+
+     
+}
