@@ -15,7 +15,7 @@ getAllExchangesForDropdown().then(function (result) {
   //	console.log(markupPair);
   document.getElementById("exchange").innerHTML = markupPair;
 
-  LoadSymbolPairs();
+ // LoadSymbolPairs();
 });
 
 window.LoadSymbolPairs = function () {
@@ -183,7 +183,7 @@ window.LoadChart = function () {
     style: "1",
     locale: "en",
     toolbar_bg: "#f1f3f6",
-    range: "1m",
+    range: "3m",
     show_popup_button: true,
     popup_width: "1000",
     popup_height: "650",
@@ -192,7 +192,7 @@ window.LoadChart = function () {
     exchange: exchange,
     enable_publishing: bl_enable_publishing,
     withdateranges: bl_withdateranges,
-    range: "1m",
+    //range: "3m",
     // hide_side_toolbar: bl_hide_side_toolbar,
 
     studies: [mrkup_studies, mrkup_studies1, mrkup_studies2, mrkup_studies3],
@@ -571,15 +571,16 @@ window.LoadChart = function () {
     //   text: "Buy",
     //   //  icon:"Oxf17b",
     // });
-    // widget.activeChart().createMultipointShape([{ time: 1602237610 }], {
-    //   shape: "arrow_down",
-    //   lock: true,
-    //   disableSelection: true,
-    //   disableSave: true,
-    //   disableUndo: true,
-    //   text: "Sell",
-    //   //  icon:"Oxf17b",
-    // });
+    widget.activeChart().createMultipointShape([{ time: 1602501459 }], {
+      shape: "0x263A",
+      // lock: true,
+      // disableSelection: true,
+      // disableSave: true,
+      // disableUndo: true,
+     // overrides:{icon:"f17b"},
+      text: "try",
+     // icon:"Oxf17b",
+    });
   });
 };
 
@@ -588,11 +589,11 @@ window.ChangeAPIDriver = function () {
   alert(document.getElementById("drp_APIDriver").value);
 };
 
-function toTimestamp(strDate) {
-   //alert(strDate.getTimezoneOffset());
-  var datum = Date.parse(strDate) + strDate.getTimezoneOffset() * 1000;
-  return datum / 1000;
-}
+// function toTimestamp(strDate) {
+//    //alert(strDate.getTimezoneOffset());
+//   var datum = Date.parse(strDate) + strDate.getTimezoneOffset() * 1000;
+//   return datum / 1000;
+// }
 
 function CustomCreateShape(time,shape,text){
   widget.activeChart().createMultipointShape([{ time: time }], {
@@ -602,42 +603,59 @@ function CustomCreateShape(time,shape,text){
   disableSave: false,
   disableUndo: false,
   text: text,
+  overrides:{showLabel:true,fontsize:12},
+     
 });
  
 }
-function CustomCreateLine(timeto,timefrom,shape,text){
+function CustomCreateLine(timeto,timefrom,shape,text,price1, price2){
   widget
       .activeChart()
-      .createMultipointShape([{ time: timeto }, { time: timefrom }], {
+      .createMultipointShape([{ time: timeto,price:price1 }, { time: timefrom ,price:price2}], {
         shape:shape,
         lock: false,
         disableSelection: true,
         disableSave: false,
         disableUndo: false,
         text: text,
+        overrides:{showLabel:true,fontsize:12},
+        
       });
 
  
 }
+function toTimestamp(strDate) {
+  var datum =Date.parse(strDate+' '+'UTC')/1000;
+ // alert(Date.parse('11-10-2020 14:30:00 UTC')+"dfsdf"+datum);
+ //   alert(datum);
+   return datum;                                                                                                                                                                             
+  }
 window.LoadChartShapes = function () {
-  alert(Date.parse('10-10-2020 14:30:00 UTC'));
-  CustomCreateShape(Date.parse('10-10-2020 14:30:00 UTC')/1000,"arrow_up","Buy-1");
-  CustomCreateShape(Date.parse('10-10-2020 14:36:00 UTC')/1000,"arrow_down","Sell-1");
+//   alert(Date.parse('10-10-2020 14:30:00 UTC'));
   
-  CustomCreateShape(Date.parse('10-10-2020 14:46:00 UTC')/1000,"arrow_up","Buy-2");
-  CustomCreateShape(Date.parse('10-10-2020 14:50:00 UTC')/1000,"arrow_down","Sell-2");
+// toTimestamp("10-10-2020 14:30:00");
+//alert("in LoadChartShapes");
+  CustomCreateShape(toTimestamp('10-12-2020 09:00:00'),"arrow_up","Buy-1");
+  CustomCreateShape(toTimestamp('10-12-2020 09:06:00'),"arrow_down","Sell-1");
+  
+  CustomCreateShape(toTimestamp('10-11-2020 14:46:00'),"arrow_up","Buy-2");
+  CustomCreateShape(toTimestamp('10-11-2020 14:50:00'),"arrow_down","Sell-2");
   
   
-  CustomCreateShape(1602236110,"arrow_up","Buy-3");
-  CustomCreateShape(1602237610,"arrow_down","Sell-3");
+  CustomCreateShape(toTimestamp('10-11-2020 15:46:00'),"arrow_up","Buy-3");
+  CustomCreateShape(toTimestamp('10-11-2020 15:56:00'),"arrow_down","Sell-3");
   
-  CustomCreateLine(Date.parse('10-10-2020 14:30:00 UTC')/1000,Date.parse('10-10-2020 14:36:00 UTC')/1000,"trend_line","Line1");
-  CustomCreateLine(Date.parse('10-10-2020 14:46:00 UTC')/1000,Date.parse('10-10-2020 14:50:00 UTC')/1000,"trend_line","Line2");
+
+  CustomCreateShape(toTimestamp('10-11-2020 16:05:00'),"arrow_up","Buy-4");
+  CustomCreateShape(toTimestamp('10-11-2020 16:15:00'),"arrow_down","Sell-4");
+
+  CustomCreateLine(toTimestamp('10-12-2020 09:00:00'),toTimestamp('10-12-2020 09:06:00'),"trend_line","Line1");
+  CustomCreateLine(toTimestamp('10-11-2020 14:46:00'),toTimestamp('10-11-2020 14:50:00'),"trend_line","Line2");
+  CustomCreateLine(toTimestamp('10-11-2020 15:46:00'),toTimestamp('10-11-2020 15:56:00'),"trend_line","Line3");
+  CustomCreateLine(toTimestamp('10-11-2020 16:05:00'),toTimestamp('10-11-2020 16:15:00'),"trend_line","Line4");
 
   
-  CustomCreateShape(1602238610,"arrow_up","Buy-4");
-  CustomCreateShape(1602242561,"arrow_down","Sell-4");
-  CustomCreateLine(1602238610,1602242561,"trend_line","Line3");
+ // CustomCreateLine(1602238610,1602242561,"trend_line","Line3");
 
      
 }
