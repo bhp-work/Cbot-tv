@@ -195,7 +195,7 @@ window.LoadChart = function () {
     //range: "3m",
     // hide_side_toolbar: bl_hide_side_toolbar,
 
-    studies: [mrkup_studies, mrkup_studies1, mrkup_studies2, mrkup_studies3],
+   // studies: [mrkup_studies, mrkup_studies1, mrkup_studies2, mrkup_studies3],
     name: selSymbol,
     description: selSymbol,
     type: "cypro",
@@ -562,23 +562,54 @@ window.LoadChart = function () {
     //     disableUndo: true,
     //     text: "Line2",
     //   });
-    // widget.activeChart().createMultipointShape([{ time: 1602236110 }], {
-    //   shape: "arrow_up",
-    //   lock: true,
-    //   disableSelection: true,
-    //   disableSave: true,
-    //   disableUndo: true,
-    //   text: "Buy",
-    //   //  icon:"Oxf17b",
-    // });
     widget.activeChart().createMultipointShape([{ time: 1602501459 }], {
-      shape: "0x263A",
+      shape: "263B",
       // lock: true,
       // disableSelection: true,
       // disableSave: true,
       // disableUndo: true,
-     // overrides:{icon:"f17b"},
-      text: "try",
+      // text: "Buy",
+      //  icon:"Oxf17b",//
+       overrides:{icon:"263B"},
+    });
+    widget.activeChart().createMultipointShape([{ time: 1602501459 }], {
+      shape: "long_position",
+      // lock: true,
+      // disableSelection: true,
+      // disableSave: true,
+      // disableUndo: true,
+      // overrides:{icon:"0xf17b"},
+      //text: "try",
+     // icon:"Oxf17b",
+    });
+   widget.activeChart().createMultipointShape([{ time: 1602501459 }], {
+      shape: "balloon",
+      // lock: true,
+      // disableSelection: true,
+      // disableSave: true,
+      // disableUndo: true,
+      // overrides:{icon:"0xf17b"},
+      text: "Hi Paul",
+     // icon:"Oxf17b",
+    });
+       widget.activeChart().createMultipointShape([{ time: 1602501459 }], {
+      shape: "note",
+      // lock: true,
+      // disableSelection: true,
+      // disableSave: true,
+      // disableUndo: true,
+      // overrides:{icon:"0xf17b"},
+      text: "Hi Paul",
+     // icon:"Oxf17b",
+    });
+    widget.activeChart().createMultipointShape([{ time: 1602513338 }], {
+      shape: "short_position",
+      // lock: true,
+      // disableSelection: true,
+      // disableSave: true,
+      // disableUndo: true,
+      // overrides:{icon:"0xf17b"},
+      //text: "try",
      // icon:"Oxf17b",
     });
   });
@@ -659,3 +690,29 @@ window.LoadChartShapes = function () {
 
      
 }
+window.LoadStudiesBB = function () {
+
+  const bl_bolinger = document.getElementById("chk_bolinger").checked;
+  // const bl_rsi = document.getElementById("chk_rsi").checked;
+  // const bl_vwamp = document.getElementById("chk_vwamp").checked;
+  // const bl_MACD = document.getElementById("chk_MACD").checked;
+  if(bl_bolinger)
+  {
+    
+   var v1= widget
+    .chart()
+    .createStudy("Bollinger Bands", false, false, [
+      10 + parseInt(Math.random() * 10),
+      3 + parseInt(Math.random() * 3),
+    ])
+    console.log("BB");
+    console.log(v1);
+  }
+  else{
+
+
+  }
+
+  
+       
+  }

@@ -35,12 +35,12 @@
 <style>
   #demo {
     -webkit-box-shadow: 3px 8px 8px -4px #000000;
-    box-shadow: 3px 8px 8px -4px #000000;
-    background: silver;
+     box-shadow: 3px 8px 8px -4px #000000;
+    /* background: silver; */
     width: fit-content;
     padding: 1px;
     border: #000000;
-    font-family: Cambria;
+    font-family: Cambria; 
   }
 
   body#tinymce {
@@ -134,16 +134,16 @@
         <b>Indicators:</b>
       </td>
       <td colspan="3">
-        <input type="checkbox" id="chk_bolinger" onchange="LoadChart();" value="BB@tv-basicstudies">
+        <input type="checkbox" id="chk_bolinger" onchange="LoadStudiesBB();" value="BB@tv-basicstudies">
         Bolinger Bands &nbsp;&nbsp;&nbsp;&nbsp;
 
-        <input type="checkbox" id="chk_rsi" onchange="LoadChart();" value="RSI@tv-basicstudies">
+        <input type="checkbox" id="chk_rsi" onchange="LoadStudiesRSI();" value="RSI@tv-basicstudies">
         RSI &nbsp;&nbsp;&nbsp;&nbsp;
 
-        <input type="checkbox" id="chk_vwamp" onchange="LoadChart();" value="VWAP@tv-basicstudies">
+        <input type="checkbox" id="chk_vwamp" onchange="LoadStudiesVWAMP();" value="VWAP@tv-basicstudies">
         VWAMP &nbsp;&nbsp;&nbsp;&nbsp;
 
-        <input type="checkbox" id="chk_MACD" onchange="LoadChart();" value="MACD@tv-basicstudies">
+        <input type="checkbox" id="chk_MACD" onchange="LoadStudiesMACD();" value="MACD@tv-basicstudies">
         MACD &nbsp;&nbsp;&nbsp;&nbsp;
       </td>
     </tr>
