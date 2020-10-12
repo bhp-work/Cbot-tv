@@ -183,7 +183,7 @@ window.LoadChart = function () {
     style: "1",
     locale: "en",
     toolbar_bg: "#f1f3f6",
-    range: "3m",
+    range: "1m",
     show_popup_button: true,
     popup_width: "1000",
     popup_height: "650",
@@ -192,7 +192,7 @@ window.LoadChart = function () {
     exchange: exchange,
     enable_publishing: bl_enable_publishing,
     withdateranges: bl_withdateranges,
-    range: "3m",
+    range: "1m",
     // hide_side_toolbar: bl_hide_side_toolbar,
 
     studies: [mrkup_studies, mrkup_studies1, mrkup_studies2, mrkup_studies3],
@@ -496,21 +496,21 @@ window.LoadChart = function () {
       .setQuantity("5 Qnty");
     order.setPrice("380");
 
-    widget.chart().createMultipointShape(
-      [
-        {
-          time: toTimestamp(new Date("10/09/2020 12:00:00")),
-          price: 348.5,
-        },
-        {
-          time: toTimestamp(new Date("10/09/2020 12:30:00")),
-          price: 350.2,
-        },
-      ],
-      {
-        shape: "trend_line",
-      }
-    );
+    // widget.chart().createMultipointShape(
+    //   [
+    //     {
+    //       time: toTimestamp(new Date("10/09/2020 12:00:00")),
+    //       price: 348.5,
+    //     },
+    //     {
+    //       time: toTimestamp(new Date("10/09/2020 12:30:00")),
+    //       price: 350.2,
+    //     },
+    //   ],
+    //   {
+    //     shape: "trend_line",
+    //   }
+    // );
 
     //     const from = Date.now() / 1000 - 60*30;
     // const to = Date.now() / 1000;
