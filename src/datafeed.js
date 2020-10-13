@@ -5,6 +5,7 @@ const lastBarsCache = new Map();
 const configurationData = {
   //supported_resolutions: ["1D", "1W", "1M"],
   supported_resolutions: [
+    "1s",
     "1",
     "3",
     "5",
@@ -160,30 +161,21 @@ export default {
       description: symbolItem.description,
       type: symbolItem.type,
       session: "24x7",
-      timezone: "Etc/UTC",
+     // timezone: "Etc/UTC",
       exchange: symbolItem.exchange,
       minmov: 1,
-      currency_code: symbolItem.quoteAsset,
-      // width: "100%",
-      // height: "500px",
-      // // has_intraday: false,
-      // has_no_volume: true,
+      //currency_code: symbolItem.quoteAsset,
+       has_no_volume: true,
       has_weekly_and_monthly: true,
       supported_resolutions: configurationData.supported_resolutions,
-      // volume_precision: 2,
-      // data_status: "streaming",
+       volume_precision: 2,
+       data_status: "streaming",
        has_intraday: true,
        intraday_multipliers: ["1", "60"],
-      pricescale: 100,
-    //  hide_side_toolbar: true,
-    // overrides: {
-    //   "hide_side_toolbar": false,
-    //   "allow_symbol_change": true,
-    //   "details": true,
-    //   "hotlist": true,
-    //   "calendar": true,
+       pricescale: 100,
+ 
+       
      
-    // },
     };
 
     console.log("[resolveSymbol]: Symbol resolved", symbolName);

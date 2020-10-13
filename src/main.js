@@ -45,50 +45,50 @@ function getParameterByName(name) {
 
 window.LoadChart = function () {
   // alert(document.getElementById("drp_lang"));
-  let selSymbol = document.getElementById("pairs").value;
-  let selTheme = document.getElementById("drp_theme").value;
-  var bl_hide_side_toolbar;
-  const bl_show_side_toolbar = document.getElementById("chk_hide_side_toolbar")
-    .checked;
-  if (bl_show_side_toolbar) {
-    bl_hide_side_toolbar = false;
-  } else {
-    bl_hide_side_toolbar = true;
-  }
-  const bl_enable_publishing = document.getElementById("chk_enable_publishing")
-    .checked;
-  const bl_details = document.getElementById("chk_details").checked;
-  const bl_hotlist = document.getElementById("chk_hotlist").checked;
-  const bl_calendar = document.getElementById("chk_calendar").checked;
-  const bl_allow_symbol_change = document.getElementById(
-    "chk_allow_symbol_change"
-  ).checked;
-  const bl_withdateranges = document.getElementById("chk_withdateranges")
-    .checked;
-  const bl_bolinger = document.getElementById("chk_bolinger").checked;
-  const bl_rsi = document.getElementById("chk_rsi").checked;
-  const bl_vwamp = document.getElementById("chk_vwamp").checked;
-  const bl_MACD = document.getElementById("chk_MACD").checked;
+   let selSymbol = document.getElementById("pairs").value;
+   let selTheme = document.getElementById("drp_theme").value;
+  // var bl_hide_side_toolbar;
+  // const bl_show_side_toolbar = document.getElementById("chk_hide_side_toolbar")
+  //   .checked;
+  // if (bl_show_side_toolbar) {
+  //   bl_hide_side_toolbar = false;
+  // } else {
+  //   bl_hide_side_toolbar = true;
+  // }
+  // const bl_enable_publishing = document.getElementById("chk_enable_publishing")
+  //   .checked;
+  // const bl_details = document.getElementById("chk_details").checked;
+  // const bl_hotlist = document.getElementById("chk_hotlist").checked;
+  // const bl_calendar = document.getElementById("chk_calendar").checked;
+  // const bl_allow_symbol_change = document.getElementById(
+  //   "chk_allow_symbol_change"
+  // ).checked;
+  // const bl_withdateranges = document.getElementById("chk_withdateranges")
+  //   .checked;
+  // const bl_bolinger = document.getElementById("chk_bolinger").checked;
+  // const bl_rsi = document.getElementById("chk_rsi").checked;
+  // const bl_vwamp = document.getElementById("chk_vwamp").checked;
+  // const bl_MACD = document.getElementById("chk_MACD").checked;
 
-  var mrkup_studies = "",
-    mrkup_studies1 = "",
-    mrkup_studies2 = "",
-    mrkup_studies3 = "";
+  // var mrkup_studies = "",
+  //   mrkup_studies1 = "",
+  //   mrkup_studies2 = "",
+  //   mrkup_studies3 = "";
 
-  if (bl_bolinger || bl_rsi || bl_vwamp || bl_MACD) {
-    if (bl_bolinger) {
-      mrkup_studies = document.getElementById("chk_bolinger").value;
-    }
-    if (bl_rsi) {
-      mrkup_studies1 = document.getElementById("chk_rsi").value;
-    }
-    if (bl_vwamp) {
-      mrkup_studies2 = document.getElementById("chk_vwamp").value;
-    }
-    if (bl_MACD) {
-      mrkup_studies3 = document.getElementById("chk_MACD").value;
-    }
-  }
+  // if (bl_bolinger || bl_rsi || bl_vwamp || bl_MACD) {
+  //   if (bl_bolinger) {
+  //     mrkup_studies = document.getElementById("chk_bolinger").value;
+  //   }
+  //   if (bl_rsi) {
+  //     mrkup_studies1 = document.getElementById("chk_rsi").value;
+  //   }
+  //   if (bl_vwamp) {
+  //     mrkup_studies2 = document.getElementById("chk_vwamp").value;
+  //   }
+  //   if (bl_MACD) {
+  //     mrkup_studies3 = document.getElementById("chk_MACD").value;
+  //   }
+  // }
 
   const exchange = document.getElementById("exchange").value;
 
@@ -155,76 +155,36 @@ window.LoadChart = function () {
     // },
   ];
 
+  
+// ----------------------------------------------------------------------------------------------------------------
+// widget constructor
   widget = (window.tvWidget = new TradingView.widget({
-    //symbol: 'Bitfinex:BTC/USD', // default symbol
-    interval: "1", // default interval
-    fullscreen: false, // displays the chart in the fullscreen mode
-    container_id: "tv_chart_container",
-    datafeed: Datafeed,
-    library_path: "charting_library_clonned_data/charting_library/",
-   // locale: getParameterByName("lang") || "en",
-    disabled_features: ["use_localstorage_for_settings"],
-    enabled_features: ["study_templates"],
-    charts_storage_url: "https://saveload.tradingview.com",
-    //Extra features added as per widget
-    charts_storage_api_version: "1.1",
-    client_id: "tradingview.com",
-    user_id: "public_user_id",
-    theme: selTheme,
-    style: "1",
-    // locale: "en",
-    locale: document.getElementById("drp_lang").value,
-    //toolbar_bg: "#f1f3f6",
-  //  range: "3m",
-    show_popup_button: true,
-    popup_width: "1000",
-    popup_height: "650",
-    // symbol: exchange + ":" + selSymbol,
+    // * param ----------
+    symbol: exchange + ":" + selSymbol,
     symbol: "Binance:ETH/USDT", // default symbol
-    exchange: exchange,
-    enable_publishing: bl_enable_publishing,
-    withdateranges: bl_withdateranges,
-    // hide_side_toolbar: bl_hide_side_toolbar,
-    name: selSymbol,
-    description: selSymbol,
-    type: "cypto",
-    width: "100%",
-    height: "600px",
-    has_no_volume: true,
-    volume_precision: 2,
-    data_status: "streaming",
-    has_intraday: true,
-    intraday_multipliers: ["1", "60"],
-    has_weekly_and_monthly: true,
-    hide_side_toolbar: true,
-    allow_symbol_change: true,
-    details: true,
-    hotlist: true,
-    calendar: true,
-    custom_css_url: "../themes.css",
-    // overrides: {
-    //     "hide_side_toolbar": "true",
-    //       "details": "true",
-    //   "hotlist": "true",
-    //   "calendar": "true",
+    interval: "1s", // default interval
+    datafeed: Datafeed,
+    container_id: "tv_chart_container", 
+    library_path: "charting_library_clonned_data/charting_library/",
 
-    // }, 
-
+    //extra param
+    // width: "100%",
+    // height: "600px",
+     // locale: getParameterByName("lang") || "en",
+    locale: document.getElementById("drp_lang").value,
+    fullscreen: true,
+    autosize: true,
+    theme: selTheme,
+    charts_storage_url: "https://saveload.tradingview.com",
+    charts_storage_api_version: "1.1",
+    client_id: "cryptoxbot.com",
+    user_id: "public_user_id",
+    style: "1",
     overrides: {
-      "paneProperties.background":
-        selTheme == "Dark"
-          ? "#000000"
-          : selTheme == "White"
-            ? "#FFFFFF"
-            : "#c0c0c0",
-      // "paneProperties.vertGridProperties.color": "#454545",
-      // "paneProperties.horzGridProperties.color": "#454545",
-      "scalesProperties.textColor": "#AAA",
+      "calendar": "true",
     },
-
-  }));
+     }));
   document.getElementById("btnShowChart").innerText = "Refresh Chart";
-
 
   widget.onChartReady(function () {
     //For header
@@ -471,17 +431,6 @@ window.LoadChart = function () {
 };
 
 
-window.ChangeAPIDriver = function () {
-  alert(document.getElementById("drp_APIDriver").value);
-};
-
-// function toTimestamp(strDate) {
-//    //alert(strDate.getTimezoneOffset());
-//   var datum = Date.parse(strDate) + strDate.getTimezoneOffset() * 1000;
-//   return datum / 1000;
-// }
-
-
 
 // ----------------------------------------------------------------------------------------------------------------
 // Indicators
@@ -530,6 +479,7 @@ window.RemoveAllStudies = function () {
 
   widget.chart().removeAllStudies();
 };
+
 
 
 // ----------------------------------------------------------------------------------------------------------------
@@ -607,7 +557,7 @@ window.LoadChartShapes = function () {
   CustomCreateShapeWithDefault(1602523536, "anchored_note", "This is test anchored_note");
   CustomCreateLine(1602580590, 1602580690, "callout", "This is test callout");
 
-5
+
   CustomCreateShapeWithDefault(1602536141, "price_label");
   CustomCreateShape(1602535189, "arrow_marker", "test arrow_marker");
   CustomCreateShape(1602535189, "flag");
@@ -717,3 +667,12 @@ window.LoadChartShapes = function () {
         icon :'f118' ,  
        }   );
 }
+
+
+// ----------------------------------------------------------------------------------------------------------------
+// OtherFUnctions
+window.ChangeAPIDriver = function () {
+  alert(document.getElementById("drp_APIDriver").value);
+};
+
+widget.activeChart().getSeries().setVisible(true);
