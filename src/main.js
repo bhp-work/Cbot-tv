@@ -7,13 +7,13 @@ var widget = null;
 
 //Get exchange list from API
 getAllExchangesForDropdown().then(function (result) {
-        var markupPair = "";
+  var markupPair = "";
   for (var i = 0; i < result.length; i++) {
     markupPair += '<option id="' + result[i] + '">' + result[i] + "</option>";
   }
   document.getElementById("exchange").innerHTML = markupPair;
 
- // LoadSymbolPairs();
+  // LoadSymbolPairs();
 });
 
 window.LoadSymbolPairs = function () {
@@ -44,7 +44,7 @@ function getParameterByName(name) {
 }
 
 window.LoadChart = function () {
- // alert(document.getElementById("drp_lang"));
+  // alert(document.getElementById("drp_lang"));
   let selSymbol = document.getElementById("pairs").value;
   let selTheme = document.getElementById("drp_theme").value;
   var bl_hide_side_toolbar;
@@ -155,7 +155,7 @@ window.LoadChart = function () {
     // },
   ];
 
-   widget = (window.tvWidget = new TradingView.widget({
+  widget = (window.tvWidget = new TradingView.widget({
     //symbol: 'Bitfinex:BTC/USD', // default symbol
     interval: "1", // default interval
     fullscreen: false, // displays the chart in the fullscreen mode
@@ -172,10 +172,10 @@ window.LoadChart = function () {
     user_id: "public_user_id",
     theme: selTheme,
     style: "1",
-   // locale: "en",
-    locale:document.getElementById("drp_lang").value,
+    // locale: "en",
+    locale: document.getElementById("drp_lang").value,
     //toolbar_bg: "#f1f3f6",
-    range: "3m",
+  //  range: "3m",
     show_popup_button: true,
     popup_width: "1000",
     popup_height: "650",
@@ -184,17 +184,13 @@ window.LoadChart = function () {
     exchange: exchange,
     enable_publishing: bl_enable_publishing,
     withdateranges: bl_withdateranges,
-    //range: "3m",
     // hide_side_toolbar: bl_hide_side_toolbar,
-
-   // studies: [mrkup_studies, mrkup_studies1, mrkup_studies2, mrkup_studies3],
     name: selSymbol,
     description: selSymbol,
     type: "cypro",
     width: "100%",
     height: "600px",
     has_no_volume: true,
-    //supported_resolutions: ["1D", "1W", "1M"],
     volume_precision: 2,
     data_status: "streaming",
     has_intraday: true,
@@ -205,23 +201,16 @@ window.LoadChart = function () {
     details: true,
     hotlist: true,
     calendar: true,
-    //autosize: true,
-    // custom_css_url should be related to library_path
     custom_css_url: "../themes.css",
     // overrides: {
-    //   "custom_css_url": "charting_library_clonned_data/themed.css",
-    //   "hide_side_toolbar": "true",
-    //   "allow_symbol_change": "true",
-    //   "details": "true",
+    //     "hide_side_toolbar": "true",
+    //       "details": "true",
     //   "hotlist": "true",
     //   "calendar": "true",
 
     // }, 
-    // disabled_features: ["move_logo_to_main_pane"],
-    // enabled_features: ["header_widget", "left_toolbar",],
-   // load_last_chart: true, //makes chart slower
-  // loading_screen: { backgroundColor: "#000000" },
-     overrides: {
+
+    overrides: {
       "paneProperties.background":
         selTheme == "Dark"
           ? "#000000"
@@ -232,46 +221,21 @@ window.LoadChart = function () {
       // "paneProperties.horzGridProperties.color": "#454545",
       "scalesProperties.textColor": "#AAA",
     },
-//     studies_access: {
-//       type: "white",
-//       tools: [
-//           {
-//               name: "Bollinger Bands",
-//               grayed: true
-//           },
-         
-//       ]
-//   },
-//   drawings_access: {
-//     type: 'black',
-//     tools: [
-//         {
-//             name: 'Trend Line',
-//             grayed: true
-//         },
-//     ]
-// },
 
   }));
-  // console.log(widget);
-  //   document.getElementById("btnShowChart").innerText = "Refresh Chart";
-  //   //Charting drawing trial
+  document.getElementById("btnShowChart").innerText = "Refresh Chart";
+
 
   widget.onChartReady(function () {
     //For header
     widget.headerReady().then(function () {
       var chartContainer = document.getElementById("tv_chart_container");
-
       var iframe = chartContainer.firstChild;
       var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
-      //console.log("innerDoc");
-      //sconsole.log(innerDoc);
       function addFeaturePoint(elemIdOrDataname, tooltip) {
         var elemWhereAdd =
           innerDoc.querySelector("#" + elemIdOrDataname) ||
           innerDoc.querySelector("[data-name=" + elemIdOrDataname + "]");
-        //console.log(elemWhereAdd);
-        //  alert(tooltip);
         if (!elemWhereAdd) {
           console.error(
             "Element with id or data-name" +
@@ -430,16 +394,6 @@ window.LoadChart = function () {
         { align: "left" }
       );
 
-      // createHeaderButton('+MA++', 'Insert Moving Average', function() {
-      //   console.log(widget.chart().createStudy(
-      //       'Moving Average',
-      //       false,
-      //       false,
-      //       [10 + parseInt(Math.random() * 10)],
-      //       undefined,
-      //       { 'plot.color.0': '#FF0000' }
-      //   ));
-      // }, { align: 'left' });
 
       createHeaderButton(
         "+Stoch",
@@ -457,11 +411,11 @@ window.LoadChart = function () {
         { align: "left" }
       );
 
-      createHeaderButton("new order", "", function () {
+      createHeaderButton("New order", "", function () {
         widget.chart().createOrderLine();
       });
 
-      createHeaderButton("Clear Studies", "", function () {
+      createHeaderButton("Clear studies", "", function () {
         widget.chart().removeAllStudies();
       });
 
@@ -512,122 +466,7 @@ window.LoadChart = function () {
       .setQuantity("5 Qnty");
     order.setPrice("380");
 
-    // widget.chart().createMultipointShape(
-    //   [
-    //     {
-    //       time: toTimestamp(new Date("10/09/2020 12:00:00")),
-    //       price: 348.5,
-    //     },
-    //     {
-    //       time: toTimestamp(new Date("10/09/2020 12:30:00")),
-    //       price: 350.2,
-    //     },
-    //   ],
-    //   {
-    //     shape: "trend_line",
-    //   }
-    // );
 
-    //     const from = Date.now() / 1000 - 60*30;
-    // const to = Date.now() / 1000;
-    // widget.activeChart().createMultipointShape(
-    //     [{ time: from, price: 351 }, { time: to, price: 353 }],
-    //     {
-    //         shape: "trend_line",
-    //         lock: true,
-    //         disableSelection: true,
-    //         disableSave: true,
-    //         disableUndo: true,
-    //         text: "Line2",
-    //     }
-
-    // );
-    // widget.activeChart().createMultipointShape([{ time: 1602233963 }], {
-    //   shape: "arrow_down",
-    //   lock: true,
-    //   disableSelection: true,
-    //   disableSave: true,
-    //   disableUndo: true,
-    //   text: "Sell",
-    // });
-    // widget.activeChart().createMultipointShape([{ time: 1602235711 }], {
-    //   shape: "arrow_up",
-    //   lock: true,
-    //   disableSelection: true,
-    //   disableSave: true,
-    //   disableUndo: true,
-    //   text: "Buy",
-    // });
-    // widget
-    //   .activeChart()
-    //   .createMultipointShape([{ time: 1602233963 }, { time: 1602235711 }], {
-    //     shape: "trend_line",
-    //     lock: true,
-    //     disableSelection: true,
-    //     disableSave: true,
-    //     disableUndo: true,
-    //     text: "Line2",
-    //   });
-    // widget
-    //   .activeChart()
-    //   .createMultipointShape([{ time: 1602236110 }, { time: 1602237610 }], {
-    //     shape: "trend_line",
-    //     lock: true,
-    //     disableSelection: true,
-    //     disableSave: true,
-    //     disableUndo: true,
-    //     text: "Line2",
-    //   });
-    widget.activeChart().createMultipointShape([{ time: 1602501459 }], {
-      shape: "263B",
-      // lock: true,
-      // disableSelection: true,
-      // disableSave: true,
-      // disableUndo: true,
-      // text: "Buy",
-      //  icon:"Oxf17b",//
-       overrides:{icon:"263B"},
-    });
-    widget.activeChart().createMultipointShape([{ time: 1602501459 }], {
-      shape: "long_position",
-      // lock: true,
-      // disableSelection: true,
-      // disableSave: true,
-      // disableUndo: true,
-      // overrides:{icon:"0xf17b"},
-      //text: "try",
-     // icon:"Oxf17b",
-    });
-   widget.activeChart().createMultipointShape([{ time: 1602501459 }], {
-      shape: "balloon",
-      // lock: true,
-      // disableSelection: true,
-      // disableSave: true,
-      // disableUndo: true,
-      // overrides:{icon:"0xf17b"},
-      text: "Hi Paul",
-     // icon:"Oxf17b",
-    });
-       widget.activeChart().createMultipointShape([{ time: 1602501459 }], {
-      shape: "note",
-      // lock: true,
-      // disableSelection: true,
-      // disableSave: true,
-      // disableUndo: true,
-      // overrides:{icon:"0xf17b"},
-      text: "Hi Paul",
-     // icon:"Oxf17b",
-    });
-    widget.activeChart().createMultipointShape([{ time: 1602513338 }], {
-      shape: "short_position",
-      // lock: true,
-      // disableSelection: true,
-      // disableSave: true,
-      // disableUndo: true,
-      // overrides:{icon:"0xf17b"},
-      //text: "try",
-     // icon:"Oxf17b",
-    });
   });
 };
 
@@ -642,93 +481,239 @@ window.ChangeAPIDriver = function () {
 //   return datum / 1000;
 // }
 
-function CustomCreateShape(time,shape,text){
-  widget.activeChart().createMultipointShape([{ time: time }], {
-  shape: shape,
-  lock: false,
-  disableSelection: true,
-  disableSave: false,
-  disableUndo: false,
-  text: text,
-  overrides:{showLabel:true,fontsize:12},
-     
-});
- 
-}
-function CustomCreateLine(timeto,timefrom,shape,text,price1, price2){
-  widget
-      .activeChart()
-      .createMultipointShape([{ time: timeto,price:price1 }, { time: timefrom ,price:price2}], {
-        shape:shape,
-        lock: false,
-        disableSelection: true,
-        disableSave: false,
-        disableUndo: false,
-        text: text,
-        overrides:{showLabel:true,fontsize:12},
-        
-      });
 
- 
-}
-function toTimestamp(strDate) {
-  var datum =Date.parse(strDate+' '+'UTC')/1000;
- // alert(Date.parse('11-10-2020 14:30:00 UTC')+"dfsdf"+datum);
- //   alert(datum);
-   return datum;                                                                                                                                                                             
-  }
-window.LoadChartShapes = function () {
-//   alert(Date.parse('10-10-2020 14:30:00 UTC'));
-  
-// toTimestamp("10-10-2020 14:30:00");
-//alert("in LoadChartShapes");
-  CustomCreateShape(toTimestamp('10-12-2020 09:00:00'),"arrow_up","Buy-1");
-  CustomCreateShape(toTimestamp('10-12-2020 09:06:00'),"arrow_down","Sell-1");
-  
-  CustomCreateShape(toTimestamp('10-11-2020 14:46:00'),"arrow_up","Buy-2");
-  CustomCreateShape(toTimestamp('10-11-2020 14:50:00'),"arrow_down","Sell-2");
-  
-  
-  CustomCreateShape(toTimestamp('10-11-2020 15:46:00'),"arrow_up","Buy-3");
-  CustomCreateShape(toTimestamp('10-11-2020 15:56:00'),"arrow_down","Sell-3");
-  
 
-  CustomCreateShape(toTimestamp('10-11-2020 16:05:00'),"arrow_up","Buy-4");
-  CustomCreateShape(toTimestamp('10-11-2020 16:15:00'),"arrow_down","Sell-4");
+// ----------------------------------------------------------------------------------------------------------------
+// Indicators
 
-  CustomCreateLine(toTimestamp('10-12-2020 09:00:00'),toTimestamp('10-12-2020 09:06:00'),"trend_line","Line1");
-  CustomCreateLine(toTimestamp('10-11-2020 14:46:00'),toTimestamp('10-11-2020 14:50:00'),"trend_line","Line2");
-  CustomCreateLine(toTimestamp('10-11-2020 15:46:00'),toTimestamp('10-11-2020 15:56:00'),"trend_line","Line3");
-  CustomCreateLine(toTimestamp('10-11-2020 16:05:00'),toTimestamp('10-11-2020 16:15:00'),"trend_line","Line4");
-
-  
- // CustomCreateLine(1602238610,1602242561,"trend_line","Line3");
-
-     
-}
 window.LoadStudiesBB = function () {
-
-  const bl_bolinger = document.getElementById("chk_bolinger").checked;
-  // const bl_rsi = document.getElementById("chk_rsi").checked;
-  // const bl_vwamp = document.getElementById("chk_vwamp").checked;
-  // const bl_MACD = document.getElementById("chk_MACD").checked;
-  if(bl_bolinger)
-  {
-    
-   var v1= widget
+  widget
     .chart()
     .createStudy("Bollinger Bands", false, false, [
       10 + parseInt(Math.random() * 10),
       3 + parseInt(Math.random() * 3),
-    ])
-    console.log("BB");
-    console.log(v1);
-  }
-  else{
+    ]);
+
+};
+
+window.LoadStudiesMACD = function () {
+  widget
+    .chart()
+    .createStudy("MACD", false, false, [
+      10 + parseInt(Math.random() * 10),
+      3 + parseInt(Math.random() * 3),
+    ]);
+
+};
+
+window.LoadStudiesRSI = function () {
+  widget
+    .chart()
+    .createStudy("Relative Strength Index", false, false, [14])
+  { align: "left" }
+
+};
 
 
-  }
+window.LoadStudiesVWAMP = function () {
+  widget
+    .chart()
+    .createStudy("VWAMP", false, false,);
 
-  
-       
-  }
+};
+
+window.RemoveAllStudies = function () {
+  document.getElementById("chk_vwamp").checked = false;
+  document.getElementById("chk_rsi").checked = false;
+  document.getElementById("chk_MACD").checked = false;
+  document.getElementById("chk_bolinger").checked = false;
+
+  widget.chart().removeAllStudies();
+};
+
+
+// ----------------------------------------------------------------------------------------------------------------
+// Shapes
+
+function CustomCreateShape(time, shape, text) {
+  widget.activeChart().createMultipointShape([{ time: time }], {
+    shape: shape,
+    lock: false,
+    disableSelection: true,
+    disableSave: false,
+    disableUndo: false,
+    text: text,
+    overrides: { showLabel: true, fontsize: 12 },
+
+  });
+
+}
+function CustomCreateShapeWithDefault(time, shape, text) {
+  widget.activeChart().createMultipointShape([{ time: time }], {
+    shape: shape,
+    text: text,
+  });
+
+}
+function CustomCreateLine(timeto, timefrom, shape, text, price1, price2) {
+  widget
+    .activeChart()
+    .createMultipointShape([{ time: timeto, price: price1 }, { time: timefrom, price: price2 }], {
+      shape: shape,
+      lock: false,
+      disableSelection: true,
+      disableSave: false,
+      disableUndo: false,
+      text: text,
+      overrides: { showLabel: true, fontsize: 12 },
+
+    });
+
+
+}
+function toTimestamp(strDate) {
+  var datum = Date.parse(strDate + ' ' + 'UTC') / 1000;
+  return datum;
+}
+window.LoadChartShapes = function () {
+
+  CustomCreateShape(toTimestamp('10-12-2020 09:00:00'), "arrow_up", "Buy-1");
+  CustomCreateShape(toTimestamp('10-12-2020 09:06:00'), "arrow_down", "Sell-1");
+
+  CustomCreateShape(toTimestamp('10-11-2020 14:46:00'), "arrow_up", "Buy-2");
+  CustomCreateShape(toTimestamp('10-11-2020 14:50:00'), "arrow_down", "Sell-2");
+
+
+  CustomCreateShape(toTimestamp('10-11-2020 15:46:00'), "arrow_up", "Buy-3");
+  CustomCreateShape(toTimestamp('10-11-2020 15:56:00'), "arrow_down", "Sell-3");
+
+
+  CustomCreateShape(toTimestamp('10-11-2020 16:05:00'), "arrow_up", "Buy-4");
+  CustomCreateShape(toTimestamp('10-11-2020 16:15:00'), "arrow_down", "Sell-4");
+
+  CustomCreateLine(toTimestamp('10-12-2020 09:00:00'), toTimestamp('10-12-2020 09:06:00'), "trend_line", "Line1");
+  CustomCreateLine(toTimestamp('10-11-2020 14:46:00'), toTimestamp('10-11-2020 14:50:00'), "trend_line", "Line2");
+  CustomCreateLine(toTimestamp('10-11-2020 15:46:00'), toTimestamp('10-11-2020 15:56:00'), "trend_line", "Line3");
+  CustomCreateLine(toTimestamp('10-11-2020 16:05:00'), toTimestamp('10-11-2020 16:15:00'), "trend_line", "Line4");
+
+
+  CustomCreateShapeWithDefault(1602523536, "long_position");
+  CustomCreateShapeWithDefault(1602534229, "short_position");
+  CustomCreateShapeWithDefault(1602523536, "note", "This is test note");
+  CustomCreateShapeWithDefault(1602534229, "balloon", "This is test balloon note");
+
+  CustomCreateShapeWithDefault(1602523536, "text", "Sample text");
+  CustomCreateShapeWithDefault(1602534229, "anchored_text", "Sample anchored_text");
+  CustomCreateShapeWithDefault(1602523536, "anchored_note", "This is test anchored_note");
+  CustomCreateLine(1602580590, 1602580690, "callout", "This is test callout");
+
+5
+  CustomCreateShapeWithDefault(1602536141, "price_label");
+  CustomCreateShape(1602535189, "arrow_marker", "test arrow_marker");
+  CustomCreateShape(1602535189, "flag");
+  // CustomCreateShape(1602535189,"xabcd_pattern",);
+  CustomCreateShape(1602580182, "vertical_line"); 
+  CustomCreateShape(1602580302, "horizontal_line");
+  widget
+    .activeChart()
+    .createMultipointShape(
+      [
+        { time: 1602573536, },
+        { time: 1602574536, },
+        { time: 1602574836, },
+        { time: 1602575136, },
+        { time: 1602575336, }
+      ],
+      {
+        shape: 'xabcd_pattern'
+      }
+    );
+
+    widget
+    .activeChart()
+    .createMultipointShape(
+      [
+        { time: 1602563536, },
+        { time: 1602564536, },
+        { time: 1602564836, },
+        { time: 1602565136, },
+      
+      ],
+      {
+        shape: 'abcd_pattern'
+      }
+    );
+
+    widget
+    .activeChart()
+    .createMultipointShape(
+      [
+        { time: toTimestamp('10-13-2020 02:34:00'), },
+        { time: toTimestamp('10-13-2020 02:44:00'), },
+        { time: toTimestamp('10-13-2020 02:54:00'), },
+        { time: toTimestamp('10-13-2020 02:24:00'), },
+      ],
+      {
+        shape: 'triangle_pattern'
+      }
+    );
+    widget
+    .activeChart()
+    .createMultipointShape(
+      [
+        { time: 1602563536, },
+        { time: 1602564536, },
+        { time: 1602564836, },
+        { time: 1602565136, },
+        { time: 1602565336, },
+        
+        { time: 1602565136, },
+        { time: 1602565336, }
+      ],
+      {
+        shape: '3divers_pattern'
+      }
+    );
+    
+   widget
+    .activeChart()
+    .createMultipointShape(
+      [
+        { time: toTimestamp('10-12-2020 21:34:00'), },
+        { time:  toTimestamp('10-12-2020 21:41:00'), },
+        { time:  toTimestamp('10-12-2020 21:54:00'), },
+        { time:  toTimestamp('10-12-2020 22:25:00'), },
+        { time:  toTimestamp('10-12-2020 22:50:00'), },
+        { time:  toTimestamp('10-12-2020 23:01:00'), },
+        { time:  toTimestamp('10-12-2020 23:13:00'), }
+      ],
+      {
+        shape: 'head_and_shoulders'
+      }
+    );
+      
+   widget
+    .activeChart()
+    .createMultipointShape(
+      [
+        { time: 1602563536, },
+        { time: 1602564536, },
+        { time: 1602564836, },
+        { time: 1602565136, },
+        { time: 1602565336, }
+      ],
+      {
+        shape: 'cypher_pattern'
+      }
+    );
+
+
+         
+   widget.activeChart().createMultipointShape(
+     [ {time: 1602580840}],
+     {  shape: '0xf118',      
+        color:'#3d85c6',     
+        scale:1,    
+        icon :'f118' ,  
+       }   );
+}
