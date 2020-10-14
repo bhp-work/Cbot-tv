@@ -17,7 +17,7 @@ getAllExchangesForDropdown().then(function (result) {
   // LoadSymbolPairs();
 });
 
-window.LoadSymbolPairs = function () {
+window.loadSymbolPairs = function () {
   getAllSymbolPairs(document.getElementById("exchange").value).then(function (
     result
   ) {
@@ -43,8 +43,7 @@ function getParameterByName(name) {
     ? ""
     : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
-
-window.LoadChart = function () {
+window.loadChart = function () {
   // alert(document.getElementById("drp_lang"));
    let selSymbol = document.getElementById("pairs").value;
    let selTheme = document.getElementById("drp_theme").value;
@@ -436,7 +435,7 @@ window.LoadChart = function () {
 // ----------------------------------------------------------------------------------------------------------------
 // Indicators
 
-window.LoadStudiesBB = function () {
+window.loadStudiesBB = function () {
   widget
     .chart()
     .createStudy("Bollinger Bands", false, false, [
@@ -446,7 +445,7 @@ window.LoadStudiesBB = function () {
 
 };
 
-window.LoadStudiesMACD = function () {
+window.loadStudiesMACD = function () {
   widget
     .chart()
     .createStudy("MACD", false, false, [
@@ -456,7 +455,7 @@ window.LoadStudiesMACD = function () {
 
 };
 
-window.LoadStudiesRSI = function () {
+window.loadStudiesRSI = function () {
   widget
     .chart()
     .createStudy("Relative Strength Index", false, false, [14])
@@ -465,14 +464,14 @@ window.LoadStudiesRSI = function () {
 };
 
 
-window.LoadStudiesVWAMP = function () {
+window.loadStudiesVWAMP = function () {
   widget
     .chart()
     .createStudy("VWAMP", false, false,);
 
 };
 
-window.RemoveAllStudies = function () {
+window.removeAllStudies = function () {
   document.getElementById("chk_vwamp").checked = false;
   document.getElementById("chk_rsi").checked = false;
   document.getElementById("chk_MACD").checked = false;
@@ -486,7 +485,7 @@ window.RemoveAllStudies = function () {
 // ----------------------------------------------------------------------------------------------------------------
 // Shapes
 
-function CustomCreateShape(time, shape, text) {
+function customCreateShape(time, shape, text) {
   widget.activeChart().createMultipointShape([{ time: time }], {
     shape: shape,
     lock: false,
@@ -499,14 +498,14 @@ function CustomCreateShape(time, shape, text) {
   });
 
 }
-function CustomCreateShapeWithDefault(time, shape, text) {
+function customCreateShapeWithDefault(time, shape, text) {
   widget.activeChart().createMultipointShape([{ time: time }], {
     shape: shape,
     text: text,
   });
 
 }
-function CustomCreateLine(timeto, timefrom, shape, text, price1, price2) {
+function customCreateLine(timeto, timefrom, shape, text, price1, price2) {
   widget
     .activeChart()
     .createMultipointShape([{ time: timeto, price: price1 }, { time: timefrom, price: price2 }], {
@@ -526,45 +525,45 @@ function toTimestamp(strDate) {
   var datum = Date.parse(strDate + ' ' + 'UTC') / 1000;
   return datum;
 }
-window.LoadChartShapes = function () {
+window.loadChartShapes = function () {
 
-  CustomCreateShape(toTimestamp('10-12-2020 09:00:00'), "arrow_up", "Buy-1");
-  CustomCreateShape(toTimestamp('10-12-2020 09:06:00'), "arrow_down", "Sell-1");
+  customCreateShape(toTimestamp('10-12-2020 09:00:00'), "arrow_up", "Buy-1");
+  customCreateShape(toTimestamp('10-12-2020 09:06:00'), "arrow_down", "Sell-1");
 
-  CustomCreateShape(toTimestamp('10-11-2020 14:46:00'), "arrow_up", "Buy-2");
-  CustomCreateShape(toTimestamp('10-11-2020 14:50:00'), "arrow_down", "Sell-2");
-
-
-  CustomCreateShape(toTimestamp('10-11-2020 15:46:00'), "arrow_up", "Buy-3");
-  CustomCreateShape(toTimestamp('10-11-2020 15:56:00'), "arrow_down", "Sell-3");
+  customCreateShape(toTimestamp('10-11-2020 14:46:00'), "arrow_up", "Buy-2");
+  customCreateShape(toTimestamp('10-11-2020 14:50:00'), "arrow_down", "Sell-2");
 
 
-  CustomCreateShape(toTimestamp('10-11-2020 16:05:00'), "arrow_up", "Buy-4");
-  CustomCreateShape(toTimestamp('10-11-2020 16:15:00'), "arrow_down", "Sell-4");
-
-  CustomCreateLine(toTimestamp('10-12-2020 09:00:00'), toTimestamp('10-12-2020 09:06:00'), "trend_line", "Line1");
-  CustomCreateLine(toTimestamp('10-11-2020 14:46:00'), toTimestamp('10-11-2020 14:50:00'), "trend_line", "Line2");
-  CustomCreateLine(toTimestamp('10-11-2020 15:46:00'), toTimestamp('10-11-2020 15:56:00'), "trend_line", "Line3");
-  CustomCreateLine(toTimestamp('10-11-2020 16:05:00'), toTimestamp('10-11-2020 16:15:00'), "trend_line", "Line4");
+  customCreateShape(toTimestamp('10-11-2020 15:46:00'), "arrow_up", "Buy-3");
+  customCreateShape(toTimestamp('10-11-2020 15:56:00'), "arrow_down", "Sell-3");
 
 
-  CustomCreateShapeWithDefault(1602523536, "long_position");
-  CustomCreateShapeWithDefault(1602534229, "short_position");
-  CustomCreateShapeWithDefault(1602523536, "note", "This is test note");
-  CustomCreateShapeWithDefault(1602534229, "balloon", "This is test balloon note");
+  customCreateShape(toTimestamp('10-11-2020 16:05:00'), "arrow_up", "Buy-4");
+  customCreateShape(toTimestamp('10-11-2020 16:15:00'), "arrow_down", "Sell-4");
 
-  CustomCreateShapeWithDefault(1602523536, "text", "Sample text");
-  CustomCreateShapeWithDefault(1602534229, "anchored_text", "Sample anchored_text");
-  CustomCreateShapeWithDefault(1602523536, "anchored_note", "This is test anchored_note");
-  CustomCreateLine(1602580590, 1602580690, "callout", "This is test callout");
+  customCreateLine(toTimestamp('10-12-2020 09:00:00'), toTimestamp('10-12-2020 09:06:00'), "trend_line", "Line1");
+  customCreateLine(toTimestamp('10-11-2020 14:46:00'), toTimestamp('10-11-2020 14:50:00'), "trend_line", "Line2");
+  customCreateLine(toTimestamp('10-11-2020 15:46:00'), toTimestamp('10-11-2020 15:56:00'), "trend_line", "Line3");
+  customCreateLine(toTimestamp('10-11-2020 16:05:00'), toTimestamp('10-11-2020 16:15:00'), "trend_line", "Line4");
 
 
-  CustomCreateShapeWithDefault(1602536141, "price_label");
-  CustomCreateShape(1602535189, "arrow_marker", "test arrow_marker");
-  CustomCreateShape(1602535189, "flag");
-  // CustomCreateShape(1602535189,"xabcd_pattern",);
-  CustomCreateShape(1602580182, "vertical_line"); 
-  CustomCreateShape(1602580302, "horizontal_line");
+  customCreateShapeWithDefault(1602523536, "long_position");
+  customCreateShapeWithDefault(1602534229, "short_position");
+  customCreateShapeWithDefault(1602523536, "note", "This is test note");
+  customCreateShapeWithDefault(1602534229, "balloon", "This is test balloon note");
+
+  customCreateShapeWithDefault(1602523536, "text", "Sample text");
+  customCreateShapeWithDefault(1602534229, "anchored_text", "Sample anchored_text");
+  customCreateShapeWithDefault(1602523536, "anchored_note", "This is test anchored_note");
+  customCreateLine(1602580590, 1602580690, "callout", "This is test callout");
+
+
+  customCreateShapeWithDefault(1602536141, "price_label");
+  customCreateShape(1602535189, "arrow_marker", "test arrow_marker");
+  customCreateShape(1602535189, "flag");
+  // customCreateShape(1602535189,"xabcd_pattern",);
+  customCreateShape(1602580182, "vertical_line"); 
+  customCreateShape(1602580302, "horizontal_line");
   widget
     .activeChart()
     .createMultipointShape(
@@ -672,7 +671,7 @@ window.LoadChartShapes = function () {
 
 // ----------------------------------------------------------------------------------------------------------------
 // OtherFUnctions
-window.ChangeAPIDriver = function () {
+window.changeAPIDriver = function () {
   alert(document.getElementById("drp_APIDriver").value);
   
 };
@@ -703,3 +702,4 @@ window.loadOrdersFromdb = function()
   // .then(text => console.log(text))  // then log it out
 };
 //widget.activeChart().getSeries().setVisible(true);
+loadChart();

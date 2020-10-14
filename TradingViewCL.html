@@ -8,20 +8,20 @@
 <meta http-equiv="X-UA-Compatible" content="IE=Edge">
 
 <title>Tradingview chart</title>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
 <!-- TV scripts for widget connection -->
 <script
     type="text/javascript"
     src="charting_library_clonned_data/charting_library/charting_library.min.js">
 </script>
-<!-- <script src="charting_library_clonned_data/datafeeds/udf/dist/polyfills.js" type="text/javascript">
-</script>
-<script src="charting_library_clonned_data/datafeeds/udf/dist/bundle.js" type="text/javascript">
-</script> -->
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.2/socket.io.js"></script>
 <!-- Custom datafeed module. -->
 <!-- <script type="module" src="src/CLDriver.js"></script> -->
-<script type="module" src="src/main.js"></script>
+
 
 <!-- 
   <script type="text/javascript">
@@ -34,14 +34,14 @@
 </script> -->
 </head>
 <style>
-  #demo {
-    -webkit-box-shadow: 3px 8px 8px -4px #000000;
-     box-shadow: 3px 8px 8px -4px #000000;
-    /* background: silver; */
+   #demo1 {
+    -webkit-box-shadow: 3px 8px 3px -4px #000000;
+     box-shadow: 3px 8px 3px -4px #000000;
+  
     width: fit-content;
-    padding: 1px;
+    padding: 0px;
     border: #000000;
-    font-family: Cambria; 
+    /* font-family: Cambria;  */
   }
 
   body#tinymce {
@@ -49,156 +49,173 @@
   }
   .body {
 			margin: 0px;
-		}
+		} 
 		.hidden {
 			display: none;
 		} 
+    .table td, .table th {
+    padding: .25rem;}
+    .card-body {
+    
+    padding: .25rem;
+}
 </style>
 <body>
-  <table style="widows: 100%;" align="center" border="1" id="demo">
-    <tr >
-      <td colspan="1">
-        <!-- <input type="checkbox" id="chk_hide_side_toolbar" onchange="ChangeAPIToCryptoCompare();">
-       Show Crypto Compare data -->
-
-       <select id="drp_APIDriver" onchange="ChangeAPIDriver();">
-        <!-- <option id="Binance">NASDAQNM</option> -->
-        <option id="TradingWiew">TradingView</option>
-        <option id="Cryptocompare">Crypto Compare</option>
-        <option id="CryptoXbot">Crypto-X-bot</option>
-      </select>
-      <td style="text-align:right ; "><b>Theme:</b>
-     
-        <select id="drp_theme" onchange="LoadChart();">
-        <option id="Light">Light</option>
-        <!-- <option id="Gray">Gray</option> -->
-        <option id="Dark">Dark</option>
-      </select>
-      </td>
-      <td style="text-align:right ; "><b>Language:</b></td>
-      <td >
-        <select id="drp_lang" onchange="LoadChart()">
-          <option value="en"> English	</option>
-          <option value="ar"> Arabic	</option>
-          <option value="zh_TW"> Chinese (Taiwan)</option>	
-          <option value="zh"> Chinese	</option>
-          <option value="cs"> Czech	</option></option>
-          <option value="da_DK"> Danish (Denmark)	</option>
-          <option value="nl_NL"> Dutch (Netherlands)	</option>
-          <option value="et_EE"> Estonian (Estonia)	</option>
-          <option value="fr"> French	</option>
-          <option value="de"> German (Germany)	</option>
-          <option value="el"> Greek	</option>
-          <option value="he_IL"> Hebrew (Israel)	</option>
-          <option value="hu_HU"> Hungarian (Hungary)	</option>
-          <option value="id_ID"> Indonesian (Indonesia)	</option>
-          <option value="it"> Italian	</option>
-          <option value="ja"> Japanese	</option>
-          <option value="ko"> Korean	</option>
-          <option value="ms_MY"> Malay (Malaysia)	</option>
-          <option value="no"> Norwegian Bokmål	</option>
-          <option value="fa"> Persian (Iran)	</option>
-          <option value="pl"> Polish	</option>
-          <option value="pt"> Portuguese	</option>
-          <option value="ro"> Romanian	</option>
-          <option value="ru"> Russian	</option>
-          <option value="sk_SK"> Slovak (Slovakia)	</option>
-          <option value="es"> Spanish	</option>
-          <option value="sv"> Swedish	</option>
-          <option value="th"> Thai (Thailand)	</option>
-          <option value="tr"> Turkish	</option>
-          <option value="vi"> Vietnamese	</option>
+  <div class="container">
+  
+    <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo">Chart Settings</button>
+    <div id="demo" class="collapse">
+      <div class="card card-body" style="padding-inline: 0mm;">
+        <table style="widows: 100%;padding: 0mm;" align="center" border="0" class="table" >
+          <tr >
+            <td colspan="1">
+              <!-- <input type="checkbox" id="chk_hide_side_toolbar" onchange="ChangeAPIToCryptoCompare();">
+             Show Crypto Compare data -->
+      
+             <select id="drp_APIDriver" onchange="changeAPIDriver()">
+              <!-- <option id="Binance">NASDAQNM</option> -->
+              <option id="TradingWiew">TradingView</option>
+              <option id="Cryptocompare">Crypto Compare</option>
+              <option id="CryptoXbot">Crypto-X-bot</option>
+            </select>
+            <td style="text-align:right ; "><b>Theme:</b>
+           
+              <select id="drp_theme" onchange="loadChart()">
+              <option id="Light">Light</option>
+              <!-- <option id="Gray">Gray</option> -->
+              <option id="Dark">Dark</option>
+            </select>
+            </td>
+            <td style="text-align:right ; "><b>Language:</b></td>
+            <td >
+              <select id="drp_lang" onchange="loadChart()">
+                <option value="en"> English	</option>
+                <option value="ar"> Arabic	</option>
+                <option value="zh_TW"> Chinese (Taiwan)</option>	
+                <option value="zh"> Chinese	</option>
+                <option value="cs"> Czech	</option></option>
+                <option value="da_DK"> Danish (Denmark)	</option>
+                <option value="nl_NL"> Dutch (Netherlands)	</option>
+                <option value="et_EE"> Estonian (Estonia)	</option>
+                <option value="fr"> French	</option>
+                <option value="de"> German (Germany)	</option>
+                <option value="el"> Greek	</option>
+                <option value="he_IL"> Hebrew (Israel)	</option>
+                <option value="hu_HU"> Hungarian (Hungary)	</option>
+                <option value="id_ID"> Indonesian (Indonesia)	</option>
+                <option value="it"> Italian	</option>
+                <option value="ja"> Japanese	</option>
+                <option value="ko"> Korean	</option>
+                <option value="ms_MY"> Malay (Malaysia)	</option>
+                <option value="no"> Norwegian Bokmål	</option>
+                <option value="fa"> Persian (Iran)	</option>
+                <option value="pl"> Polish	</option>
+                <option value="pt"> Portuguese	</option>
+                <option value="ro"> Romanian	</option>
+                <option value="ru"> Russian	</option>
+                <option value="sk_SK"> Slovak (Slovakia)	</option>
+                <option value="es"> Spanish	</option>
+                <option value="sv"> Swedish	</option>
+                <option value="th"> Thai (Thailand)	</option>
+                <option value="tr"> Turkish	</option>
+                <option value="vi"> Vietnamese	</option>
+                
+                
+            </select>
+            </td>
+          </tr>
+          <tr >
+            <td>
+              <b>Exchanges:</b>
+            </td>
+            <td>
+              <select id="exchange" onchange="loadSymbolPairs()">
+                <!-- <option id="Binance">NASDAQNM</option> -->
+                <option id="Binance">Binance</option>
+                <option id="Poloniex">Poloniex</option>
+                <option id="Bittrex">Bittrex</option>
+              </select>
+            </td>
+            <td style="text-align:right ; ">
+              <b> Currency pair:</b>
+            </td>
+            <td>
+              <select id="pairs" onchange="loadChart()">
+      
+              </select>
+            </td>
+          </tr>
+          <tr  >
+            <td>
+              <b>Tools:</b>
+            </td>
+            <td colspan="3">
+              <input type="checkbox" id="chk_hide_side_toolbar" onchange="loadChart()">
+              Side Toolbar &nbsp;&nbsp;
+      
+              <input type="checkbox" id="chk_enable_publishing" onchange="loadChart()">
+              Enable Publishing &nbsp;&nbsp;&nbsp;&nbsp;
+      
+              <input type="checkbox" id="chk_details" onchange="loadChart()">
+              Details &nbsp;&nbsp;&nbsp;&nbsp;
+      
+              <input type="checkbox" id="chk_hotlist" onchange="loadChart()">
+              Hotlist &nbsp;&nbsp;&nbsp;&nbsp;
+      
+              <input type="checkbox" id="chk_calendar" onchange="loadChart()">
+              calendar &nbsp;&nbsp;&nbsp;&nbsp;
+      
+              <input type="checkbox" id="chk_allow_symbol_change" onchange="loadChart()">
+              Allow symbol change &nbsp;&nbsp;&nbsp;&nbsp;
+      
+              <input type="checkbox" id="chk_withdateranges" onchange="loadChart()">
+              With date ranges
+             
+            </td>
+          </tr>
+          <tr >
+            <td>
+              <b>Indicators:</b>
+            </td>
+            <td colspan="3">
+              <input type="checkbox" id="chk_bolinger" onchange="loadStudiesBB()" value="BB@tv-basicstudies">
+              Bolinger Bands &nbsp;&nbsp;&nbsp;&nbsp;
+      
+              <input type="checkbox" id="chk_rsi" onchange="loadStudiesRSI()" value="RSI@tv-basicstudies">
+              RSI &nbsp;&nbsp;&nbsp;&nbsp;
+      
+              <input type="checkbox" id="chk_vwamp" onchange="loadStudiesVWAMP()" value="VWAP@tv-basicstudies">
+              VWAMP &nbsp;&nbsp;&nbsp;&nbsp;
+      
+              <input type="checkbox" id="chk_MACD" onchange="loadStudiesMACD()" value="MACD@tv-basicstudies">
+              MACD &nbsp;&nbsp;&nbsp;&nbsp;
+              <button class="btn btn-primary" id="btnRemoveStudies" onclick="removeAllStudies()">Remove 
+                </button>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="1" align="center">
           
-          
-      </select>
-      </td>
-    </tr>
-    <tr >
-      <td>
-        <b>Exchanges:</b>
-      </td>
-      <td>
-        <select id="exchange" onchange="LoadSymbolPairs();">
-          <!-- <option id="Binance">NASDAQNM</option> -->
-          <option id="Binance">Binance</option>
-          <option id="Poloniex">Poloniex</option>
-          <option id="Bittrex">Bittrex</option>
-        </select>
-      </td>
-      <td style="text-align:right ; ">
-        <b> Currency pair:</b>
-      </td>
-      <td>
-        <select id="pairs" onchange="LoadChart();">
-
-        </select>
-      </td>
-    </tr>
-    <tr  >
-      <td>
-        <b>Tools:</b>
-      </td>
-      <td colspan="3">
-        <input type="checkbox" id="chk_hide_side_toolbar" onchange="LoadChart();">
-        Side Toolbar &nbsp;&nbsp;
-
-        <input type="checkbox" id="chk_enable_publishing" onchange="LoadChart();">
-        Enable Publishing &nbsp;&nbsp;&nbsp;&nbsp;
-
-        <input type="checkbox" id="chk_details" onchange="LoadChart();">
-        Details &nbsp;&nbsp;&nbsp;&nbsp;
-
-        <input type="checkbox" id="chk_hotlist" onchange="LoadChart();">
-        Hotlist &nbsp;&nbsp;&nbsp;&nbsp;
-
-        <input type="checkbox" id="chk_calendar" onchange="LoadChart();">
-        calendar &nbsp;&nbsp;&nbsp;&nbsp;
-
-        <input type="checkbox" id="chk_allow_symbol_change" onchange="LoadChart();">
-        Allow symbol change &nbsp;&nbsp;&nbsp;&nbsp;
-
-        <input type="checkbox" id="chk_withdateranges" onchange="LoadChart();">
-        With date ranges
-        </div>
-      </td>
-    </tr>
-    <tr >
-      <td>
-        <b>Indicators:</b>
-      </td>
-      <td colspan="3">
-        <input type="checkbox" id="chk_bolinger" onchange="LoadStudiesBB();" value="BB@tv-basicstudies">
-        Bolinger Bands &nbsp;&nbsp;&nbsp;&nbsp;
-
-        <input type="checkbox" id="chk_rsi" onchange="LoadStudiesRSI();" value="RSI@tv-basicstudies">
-        RSI &nbsp;&nbsp;&nbsp;&nbsp;
-
-        <input type="checkbox" id="chk_vwamp" onchange="LoadStudiesVWAMP();" value="VWAP@tv-basicstudies">
-        VWAMP &nbsp;&nbsp;&nbsp;&nbsp;
-
-        <input type="checkbox" id="chk_MACD" onchange="LoadStudiesMACD();" value="MACD@tv-basicstudies">
-        MACD &nbsp;&nbsp;&nbsp;&nbsp;
-        <button style="outline: thin solid; padding: 2px;" class="demo" id="btnRemoveStudies" onclick="RemoveAllStudies();">Remove 
-          </button>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="1" align="center">
-    
-        <button style="outline: thin solid; padding: 2px;" class="demo" id="btnShowChart" onclick="LoadChart();">Show
-          Chart</button>
-      </td>
-      <td colspan="1" align="center">
-     
-      <button style="outline: thin solid; padding: 2px;" class="demo" id="btnShowShapes" onclick="LoadChartShapes();">Show
-      Shapes</button>
-     </td>
-     <td> 
-      <button style="outline: thin solid; padding: 2px;" class="demo" id="btnShowDBOrders" onclick="loadOrdersFromdb();">Show
-      DB Orders</button>
-    </td>
-    </tr>
-  </table>
+              <button class="btn btn-primary" id="btnShowChart" onclick="loadChart()">Show
+                Chart</button>
+            </td>
+            <td colspan="1" align="center">
+           
+            <button class="btn btn-primary" id="btnShowShapes" onclick="loadChartShapes()">Show
+            Shapes</button>
+           </td>
+           <td> 
+            <button class="btn btn-primary" id="btnShowDBOrders" onclick="loadOrdersFromdb()">Show
+            DB Orders</button>
+          </td>
+          </tr>
+        </table>
+      
+      
+    </div>
+  </div>
+  
+ </div>
   </br>
   <div style="align-content: center;border: rgb(158, 11, 11);" class="tradingview-widget-container" id="tv_chart_container"></div>
   <div class="feature-point hidden" id="feature-point">
@@ -212,9 +229,6 @@
 </body>
  
 
-<script>
-
-
-</script>
+<script type="module" src="src/main.js"></script>
 
 </html>
