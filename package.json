@@ -15,5 +15,11 @@
   "bugs": {
     "url": "https://github.com/bhp-work/Crypto/issues"
   },
-  "homepage": "https://github.com/bhp-work/Crypto#readme"
+  "homepage": "https://github.com/bhp-work/Crypto#readme",
+  "dependencies": {
+    "mysql": "^2.18.1"
+  },
+  "proxy": "http://localhost:4000"
+
 }
+

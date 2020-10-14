@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: Arial;
+        }
+
+        /* Style the tab */
+        .tab {
+            overflow: hidden;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+        }
+
+        /* Style the buttons inside the tab */
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+            font-size: 17px;
+        }
+
+        /* Change background color of buttons on hover */
+        .tab button:hover {
+            background-color: #ddd;
+        }
+
+        /* Create an active/current tablink class */
+        .tab button.active {
+            background-color: #ccc;
+        }
+
+        /* Style the tab content */
+        .tabcontent {
+            display: none;
+            padding: 6px 12px;
+            border: 1px solid #ccc;
+            border-top: none;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- TradingView Widget BEGIN -->
+    <div class="tradingview-widget-container">
+        <div class="tradingview-widget-container__widget"></div>
+        <!-- <div class="tradingview-widget-copyright">
+            <a href="https://in.tradingview.com" rel="noopener" target="_blank">
+                <span class="blue-text">Ticker Tape</span></a> by TradingView</div> -->
+        <script type="text/javascript"
+            src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+                new TradingView.widget(
+                {
+                    "symbols": [
+                        {
+                            "proName": "BITSTAMP:BTCUSD",
+                            "title": "BTC/USD"
+                        },
+                        {
+                            "proName": "BITSTAMP:ETHUSD",
+                            "title": "ETH/USD"
+                        }
+                    ],
+                        "colorTheme": "dark",
+                            "isTransparent": false,
+                                "largeChartUrl": "http://localhost/cl/cryptocharts/tradingviewcl.html",
+                                    "displayMode": "adaptive",
+                                        "locale": "in"
+                });
+            </script>
+    </div>
+    <!-- TradingView Widget END -->
+
+    <div class="tab">
+        <button class="tablinks" onclick="openTab(event, 'MarketOverview')">Crypto Market Overview</button>
+        <button class="tablinks" onclick="openTab(event, 'Paris')">Paris</button>
+        <button class="tablinks" onclick="openTab(event, 'Tokyo')">Tokyo</button>
+    </div>
+
+    <div id="MarketOverview" class="tabcontent">
+ 
+    </div>
+
+    <div id="Paris" class="tabcontent">
+    
+<!-- TradingView Widget BEGIN -->
+<div class="tradingview-widget-container">
+    <div class="tradingview-widget-container__widget"></div>
+    <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/symbols/EURUSD/?exchange=FX" rel="noopener" target="_blank"><span class="blue-text">EURUSD Rates</span></a> by TradingView</div>
+    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
+        new (
+    {
+    "symbol": "FX:EURUSD",
+    "width": 350,
+    "height": 220,
+    "locale": "en",
+    "dateRange": "12M",
+    "colorTheme": "light",
+    "trendLineColor": "#37a6ef",
+    "underLineColor": "#E3F2FD",
+    "isTransparent": false,
+    "autosize": false,
+    "largeChartUrl": ""
+  }
+        );
+    </script>
+    </div>
+
+    <div id="Tokyo" class="tabcontent">
+      <!-- TradingView Widget BEGIN -->
+<div class="tradingview-widget-container">
+    <div class="tradingview-widget-container__widget"></div>
+    <div class="tradingview-widget-copyright"><a href="https://in.tradingview.com/markets/cryptocurrencies/" rel="noopener" target="_blank"><span class="blue-text">Bitcoin and Altcoin Prices</span></a> by TradingView</div>
+    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-market-quotes.js" async>
+   new ( {
+    "title": "Cryptocurrencies",
+    "title_raw": "Cryptocurrencies",
+    "title_link": "/markets/cryptocurrencies/prices-all/",
+    "width": 770,
+    "height": 450,
+    "locale": "in",
+    "symbolsGroups": [
+      {
+        "name": "Overview",
+        "symbols": [
+          {
+            "name": "BITSTAMP:BTCUSD"
+          },
+          {
+            "name": "BITSTAMP:ETHUSD"
+          },
+          {
+            "name": "BITSTAMP:XRPUSD"
+          },
+          {
+            "name": "COINBASE:BCHUSD"
+          },
+          {
+            "name": "COINBASE:LTCUSD"
+          },
+          {
+            "name": "BITFINEX:IOTUSD"
+          }
+        ]
+      },
+      {
+        "name": "Bitcoin",
+        "symbols": [
+          {
+            "name": "BITSTAMP:BTCUSD"
+          },
+          {
+            "name": "COINBASE:BTCEUR"
+          },
+          {
+            "name": "COINBASE:BTCGBP"
+          },
+          {
+            "name": "BITFLYER:BTCJPY"
+          },
+          {
+            "name": "CEXIO:BTCRUB"
+          },
+          {
+            "name": "CME:BTC1!"
+          }
+        ]
+      },
+      {
+        "name": "XRP",
+        "symbols": [
+          {
+            "name": "BITSTAMP:XRPUSD"
+          },
+          {
+            "name": "KRAKEN:XRPEUR"
+          },
+          {
+            "name": "KORBIT:XRPKRW"
+          },
+          {
+            "name": "BITSO:XRPMXN"
+          },
+          {
+            "name": "BINANCE:XRPBTC"
+          },
+          {
+            "name": "BITTREX:XRPETH"
+          }
+        ]
+      },
+      {
+        "name": "Ethereum",
+        "symbols": [
+          {
+            "name": "COINBASE:ETHUSD"
+          },
+          {
+            "name": "KRAKEN:ETHEUR"
+          },
+          {
+            "name": "KRAKEN:ETHGBP"
+          },
+          {
+            "name": "KRAKEN:ETHJPY"
+          },
+          {
+            "name": "POLONIEX:ETHBTC"
+          },
+          {
+            "name": "KRAKEN:ETHXBT"
+          }
+        ]
+      },
+      {
+        "name": "Bitcoin Cash",
+        "symbols": [
+          {
+            "name": "COINBASE:BCHUSD"
+          },
+          {
+            "name": "BITSTAMP:BCHEUR"
+          },
+          {
+            "name": "CEXIO:BCHGBP"
+          },
+          {
+            "name": "BITSTAMP:BCHBTC"
+          },
+          {
+            "name": "HITBTC:BCHETH"
+          },
+          {
+            "name": "KRAKEN:BCHXBT"
+          }
+        ]
+      }
+    ],
+    "colorTheme": "light"
+  });
+    </script>
+  </div>
+  <!-- TradingView Widget END -->
+    </div>
+
+    <script>
+        function openTab(evt, cityName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(cityName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+    </script>
+
+</body>
+
+</html>

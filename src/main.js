@@ -1,8 +1,9 @@
 //Datafeed implementation, will be added later
 import Datafeed from "./datafeed.js";
+//import Datafeed from "./CLDriver.js";
 //import Datafeed from "../datafeeds/udf/lib/udf-compatible-datafeed.js"
 import { getAllExchangesForDropdown, getAllSymbolPairs } from "./helpers.js";
-
+import {getAllOrders} from "./database.js";
 var widget = null;
 
 //Get exchange list from API
@@ -673,6 +674,32 @@ window.LoadChartShapes = function () {
 // OtherFUnctions
 window.ChangeAPIDriver = function () {
   alert(document.getElementById("drp_APIDriver").value);
+  
 };
 
-widget.activeChart().getSeries().setVisible(true);
+window.loadOrdersFromdb = function()
+{
+	try {
+  //  const resp = fetch('http://localhost:4000/orders');
+ return fetch('http://localhost:4000/orders').then((res)=>{ return res.json()})
+ . catch(error=>{ 
+  console.log('**');
+  console.log(error);
+  throw new Error(`Orders request error: ${error.status}`);
+   }
+ )  
+    // console.log('resp');
+    // console.log(resp);
+		// return resp.json();
+	} catch (error) {
+    console.log('**');
+    console.log(error);
+		throw new Error(`Orders request error: ${error.status}`);
+  }
+  
+  // fetch('http://localhost:4000/orders')
+  // // .then(res => res.json()) // comment this out for now
+  // .then(res => res.text())          // convert to plain text
+  // .then(text => console.log(text))  // then log it out
+};
+//widget.activeChart().getSeries().setVisible(true);
