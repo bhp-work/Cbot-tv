@@ -17,9 +17,9 @@
   },
   "homepage": "https://github.com/bhp-work/Crypto#readme",
   "dependencies": {
-    "mysql": "^2.18.1"
+    "axios": "^0.20.0",
+    "mysql": "^2.18.1",
+    "node-fetch": "^2.6.1"
   },
   "proxy": "http://localhost:4000"
-
 }
-

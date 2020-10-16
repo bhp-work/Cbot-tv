@@ -7,7 +7,7 @@
 function toTimestamp(strDate,price) {
   var datum = Date.parse(strDate + ' ' + 'UTC') / 1000;
   console.log('====================================');
-  console.log(datum+" - "+price );
+  console.log(strDate +"  "+datum+" - "+price );
 
   return datum;
 }

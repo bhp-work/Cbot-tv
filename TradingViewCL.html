@@ -17,7 +17,7 @@
     type="text/javascript"
     src="charting_library_clonned_data/charting_library/charting_library.min.js">
 </script>
-
+<!-- <script src="//requirejs.org/docs/release/2.3.5/minified/require.js"></script> -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.2/socket.io.js"></script>
 <!-- Custom datafeed module. -->
 <!-- <script type="module" src="src/CLDriver.js"></script> -->
@@ -208,6 +208,23 @@
             <button class="btn btn-primary" id="btnShowDBOrders" onclick="loadOrdersFromdb()">Show
             DB Orders</button>
           </td>
+          <!-- <td> <button class="btn btn-primary" id="btnShowDBOrders" onclick="createNewPosition()"></button>
+            
+          </td> -->
+          </tr>
+          <tr>
+            <td></td>
+            <td >
+              <input type="checkbox" id="chk_NewPosition" onchange="createNewPosition()">
+              Create
+              new position &nbsp;&nbsp;&nbsp;&nbsp;
+      
+              <input type="checkbox" id="chk_Neworder" onchange="createNewOrder()">
+              Create
+              new order &nbsp;&nbsp;&nbsp;&nbsp; 
+              <input type="checkbox" id="chk_NewExe" onchange="createNewExecution()">
+              create New Execution &nbsp;&nbsp;&nbsp;&nbsp;
+              </td> 
           </tr>
         </table>
       
@@ -218,6 +235,11 @@
  </div>
   </br>
   <div style="align-content: center;border: rgb(158, 11, 11);" class="tradingview-widget-container" id="tv_chart_container"></div>
+  <div style="align-content: center;border: rgb(158, 11, 11);" class="tradingview-widget-container" id="cc_chart_container"></div>
+
+
+
+
   <div class="feature-point hidden" id="feature-point">
 		<svg class="feature-point__image" height="25" viewbox="0 0 32 32" width="25" xmlns="http://www.w3.org/2000/svg">
 			<rect fill="#9013FE" height="32" opacity="0.9" rx="16" width="32"></rect>

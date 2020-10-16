@@ -3,7 +3,7 @@ import Datafeed from "./datafeed.js";
 //import Datafeed from "./CLDriver.js";
 //import Datafeed from "../datafeeds/udf/lib/udf-compatible-datafeed.js"
 import { getAllExchangesForDropdown, getAllSymbolPairs } from "./helpers.js";
-import {getAllOrders} from "./database.js";
+//import {getAllOrders} from "./database.js";
 var widget = null;
 
 //Get exchange list from API
@@ -184,6 +184,8 @@ window.loadChart = function () {
       "calendar": "true",
     },
      }));
+
+    
   document.getElementById("btnShowChart").innerText = "Refresh Chart";
 
   widget.onChartReady(function () {
@@ -395,27 +397,27 @@ window.loadChart = function () {
       //   });
     });
 
-    //for chart actions
-    widget
-      .activeChart()
-      .createOrderLine()
-      .setTooltip("Additional order information")
-      .setModifyTooltip("Modify order")
-      .setCancelTooltip("Cancel order")
-      .onMove(function () {
-        this.setText("onMove called");
-        alert("Moved");
-      })
-      .onModify("onModify called", function (text) {
-        this.setText(text);
-        alert("Modified");
-      })
-      .onCancel("onCancel called", function (text) {
-        this.setText(text);
-        alert("Cancelled");
-      })
-      .setText("STOP: 73.5 (5,64%)")
-      .setQuantity("2");
+    // //for chart actions
+    // widget
+    //   .activeChart()
+    //   .createOrderLine()
+    //   .setTooltip("Additional order information")
+    //   .setModifyTooltip("Modify order")
+    //   .setCancelTooltip("Cancel order")
+    //   .onMove(function () {
+    //     this.setText("onMove called");
+    //     alert("Moved");
+    //   })
+    //   .onModify("onModify called", function (text) {
+    //     this.setText(text);
+    //     alert("Modified");
+    //   })
+    //   .onCancel("onCancel called", function (text) {
+    //     this.setText(text);
+    //     alert("Cancelled");
+    //   })
+    //   .setText("STOP: 73.5 (5,64%)")
+    //   .setQuantity("2");
 
     var order = widget
       .chart()
@@ -430,7 +432,10 @@ window.loadChart = function () {
   });
 };
 
+ LoadWidgetConstructor()
+     {
 
+     }
 
 // ----------------------------------------------------------------------------------------------------------------
 // Indicators
@@ -679,20 +684,79 @@ window.changeAPIDriver = function () {
 window.loadOrdersFromdb = function()
 {
 	try {
-  //  const resp = fetch('http://localhost:4000/orders');
- return fetch('http://localhost:4000/orders').then((res)=>{ return res.json()})
- . catch(error=>{ 
-  console.log('**');
-  console.log(error);
-  throw new Error(`Orders request error: ${error.status}`);
-   }
- )  
-    // console.log('resp');
-    // console.log(resp);
-		// return resp.json();
+
+    //const data=getAllOrders();
+
+    const data= [
+      {
+        ID: 1,
+        Timestamp: '2020-10-14T09:38:12.000Z',
+        ExchID: 2,
+        Pair: 'ETH/USDT',
+        Side: 'buy',
+        Price: 382.38,
+        Quantity: 5,
+        UserID: 1,
+        oTimestamp: 1602664140
+      },
+      {
+        ID: 2,
+        Timestamp: '2020-10-14T09:36:11.000Z',
+        ExchID: 2,
+        Pair: 'ETH/USDT',
+        Side: 'buy',
+        Price: 381.14,
+        Quantity: 5,
+        UserID: 1,
+        oTimestamp: 1602657540
+      },
+      {
+        ID: 3,
+        Timestamp: '2020-10-14T09:37:18.000Z',
+        ExchID: 2,
+        Pair: 'ETH/USDT',
+        Side: 'sell',
+        Price: 383.04,
+        Quantity: 5,
+        UserID: 1,
+        oTimestamp: 1602658620
+      },
+      {
+        ID: 4,
+        Timestamp: '2020-10-14T09:37:35.000Z',
+        ExchID: 2,
+        Pair: 'ETH/USDT',
+        Side: 'buy',
+        Price: 380.9,
+        Quantity: 1,
+        oTimestamp: 1602662740,
+      },
+      {
+        ID: 5,
+        Timestamp: '2020-10-14T09:37:50.000Z',
+        Side: 'sell',
+        Price: 382.38,
+        Quantity: 1,
+        UserID: 1,
+        oTimestamp: 1602662940
+      }
+    ]
+    console.log(data);
+
+    data.forEach(function(value, index) {
+      console.log(value);
+      var strSide= value.Side;
+      var strShape=(strSide=="buy")? "arrow_up": "arrow_down";
+      var strText=strSide+" order ID:"+value.ID+"Price:"+value.Price;
+        customCreateShape(value.oTimestamp,strShape,strText);
+        customCreateShapeWithDefault(value.oTimestamp, "price_label","test");
+        // customCreateShape(toTimestamp('10-12-2020 09:00:00'), "arrow_up", "Buy-1");
+        // customCreateShape(toTimestamp('10-12-2020 09:06:00'), "arrow_down", "Sell-1");
+      
+    });
+
 	} catch (error) {
-    console.log('**');
-    console.log(error);
+        console.log(error);
 		throw new Error(`Orders request error: ${error.status}`);
   }
   
@@ -702,4 +766,67 @@ window.loadOrdersFromdb = function()
   // .then(text => console.log(text))  // then log it out
 };
 //widget.activeChart().getSeries().setVisible(true);
+
+window.createNewPosition = function()
+{
+  //alert();
+widget.chart().createPositionLine()
+    .onModify(function() {
+        this.setText("onModify called");
+        var price= prompt("This will open the modify modal popup to modify the position. Enter the Quantity");
+        alert("Order modified successfuly.  You entered "+ price);
+    })
+    .onReverse("onReverse called", function(text) {
+        this.setText(text);
+       
+    })
+    .onClose("onClose called", function(text) {
+        this.setText(text);
+        confirm("Are you sure you want to cancel the position with price" + "Check how u can get the price" );
+    })
+    .setText("PROFIT: 71.1 (3.31%)")
+    .setTooltip("bhp: Additional position information")
+    .setProtectTooltip("Protect position")
+    .setCloseTooltip("Close position")
+    .setReverseTooltip("Reverse position")
+    .setQuantity("8.235")
+   // .setPrice(160)
+    .setExtendLeft(false)
+    .setLineStyle(0)
+    .setLineLength(25);
+  }
+  window.createNewExecution = function()
+{
+  alert(widget.activeChart().getVisibleRange().from);
+  widget.activeChart().createExecutionShape()
+  .setText("@1,320.75 Limit Buy 1")
+  .setTooltip("@1,320.75 Limit Buy 1")
+  .setTextColor("rgba(0,255,0,1)")
+  .setArrowColor("#0F0")
+  .setDirection("buy")
+  .setTime(widget.activeChart().getVisibleRange().from)
+  .setPrice("370");
+
+  widget.activeChart().createExecutionShape()
+  .setText("@380 Limit Buy 1")
+  .setTooltip("@380 Limit Buy 1: tooltip ")
+  .setTextColor("rgba(255,0,0,1)")
+  .setArrowColor("#0F0")
+  .setDirection("sell")
+  .setTime(widget.activeChart().getVisibleRange().from)
+  .setPrice("375");
+
+  }  
+  window.createNewOrder = function()
+{
+//  alert(widget.activeChart().getVisibleRange().from);
+  var order = widget
+      .chart()
+      .createOrderLine()
+      .setText("Buy Line")
+      .setLineLength(3)
+      .setLineStyle(0)
+      .setQuantity("5 Qnty");
+    order.setPrice("380");
+  }
 loadChart();

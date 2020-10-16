@@ -77,3 +77,21 @@ export async function getAllExchangesForDropdown() {
 	//return symbolList;	
   }
   
+  export async function makeDBAPIRequest(path) {
+	try {
+	
+		const response = await fetch(`http://localhost:4000/${path}`);
+		return response.json();
+	} catch (error) {
+		throw new Error(`Database request error: ${error.status}`);
+	}
+}
+
+export async function getAllOrders() {
+//	console.log("inside helpers.js getAllOrders");
+//	const orders = await makeDBAPIRequest("orders");
+	//let orders = Object.values(data);
+   console.log(orders);
+
+	return orders;
+  }
