@@ -1,7 +1,7 @@
 //Datafeed implementation, will be added later
-import Datafeed from "./datafeed.js";
-//import Datafeed from "./CLDriver.js";
-//import Datafeed from "../datafeeds/udf/lib/udf-compatible-datafeed.js"
+
+import {getdatafeed} from "./dfDriver.js";
+//import Datafeed from "../charting_library_clonned_data/datafeeds/udf/lib/udf-compatible-datafeed.js"
 import { getAllExchangesForDropdown, getAllSymbolPairs } from "./helpers.js";
 //import {getAllOrders} from "./database.js";
 var widget = null;
@@ -45,8 +45,8 @@ function getParameterByName(name) {
 }
 window.loadChart = function () {
   // alert(document.getElementById("drp_lang"));
-   let selSymbol = document.getElementById("pairs").value;
-   let selTheme = document.getElementById("drp_theme").value;
+  let selSymbol = document.getElementById("pairs").value;
+  let selTheme = document.getElementById("drp_theme").value;
   // var bl_hide_side_toolbar;
   // const bl_show_side_toolbar = document.getElementById("chk_hide_side_toolbar")
   //   .checked;
@@ -155,39 +155,16 @@ window.loadChart = function () {
     // },
   ];
 
-  
-// ----------------------------------------------------------------------------------------------------------------
-// widget constructor
-  widget = (window.tvWidget = new TradingView.widget({
-    // * param ----------
-    symbol: exchange + ":" + selSymbol,
-    symbol: "Binance:ETH/USDT", // default symbol
-    interval: "1s", // default interval
-    datafeed: Datafeed,
-    container_id: "tv_chart_container", 
-    library_path: "charting_library_clonned_data/charting_library/",
 
-    //extra param
-    // width: "100%",
-    // height: "600px",
-     // locale: getParameterByName("lang") || "en",
-    locale: document.getElementById("drp_lang").value,
-    fullscreen: true,
-    autosize: true,
-    theme: selTheme,
-    charts_storage_url: "https://saveload.tradingview.com",
-    charts_storage_api_version: "1.1",
-    client_id: "cryptoxbot.com",
-    user_id: "public_user_id",
-    style: "1",
-    overrides: {
-      "calendar": "true",
-    },
-     }));
+  // ----------------------------------------------------------------------------------------------------------------
+  // call widget constructor
 
-    
+  var selDatafeed = getdatafeed();
+  LoadWidgetConstructor(selDatafeed, selSymbol, selTheme);
+
   document.getElementById("btnShowChart").innerText = "Refresh Chart";
-
+if(widget!=null)
+{
   widget.onChartReady(function () {
     //For header
     widget.headerReady().then(function () {
@@ -419,23 +396,52 @@ window.loadChart = function () {
     //   .setText("STOP: 73.5 (5,64%)")
     //   .setQuantity("2");
 
-    var order = widget
-      .chart()
-      .createOrderLine()
-      .setText("Buy Line")
-      .setLineLength(3)
-      .setLineStyle(0)
-      .setQuantity("5 Qnty");
-    order.setPrice("380");
+    // var order = widget
+    //   .chart()
+    //   .createOrderLine()
+    //   .setText("Buy Line")
+    //   .setLineLength(3)
+    //   .setLineStyle(0)
+    //   .setQuantity("5 Qnty");
+    // order.setPrice("380");
 
 
   });
-};
 
- LoadWidgetConstructor()
-     {
+}
+  };
+  
+function LoadWidgetConstructor(Datafeed, selSymbol, selTheme) {
+console.log("LoadWidgetConstructor");
+  widget = (window.tvWidget = new TradingView.widget({
+    // * param ----------
+    symbol: exchange + ":" + selSymbol,
+    symbol: "Binance:ETH/USDT", // default symbol
+    interval: "1s", // default interval
+    datafeed: Datafeed,
+    container_id: "tv_chart_container",
+    library_path: "charting_library_clonned_data/charting_library/",
 
-     }
+    //extra param
+    // width: "100%",
+    // height: "600px",
+    // locale: getParameterByName("lang") || "en",
+    locale: document.getElementById("drp_lang").value,
+    fullscreen: true,
+    autosize: true,
+    theme: selTheme,
+    charts_storage_url: "https://saveload.tradingview.com",
+    charts_storage_api_version: "1.1",
+    client_id: "cryptoxbot.com",
+    user_id: "public_user_id",
+    style: "1",
+    overrides: {
+      "calendar": "true",
+    },
+  }));
+
+
+}
 
 // ----------------------------------------------------------------------------------------------------------------
 // Indicators
@@ -567,7 +573,7 @@ window.loadChartShapes = function () {
   customCreateShape(1602535189, "arrow_marker", "test arrow_marker");
   customCreateShape(1602535189, "flag");
   // customCreateShape(1602535189,"xabcd_pattern",);
-  customCreateShape(1602580182, "vertical_line"); 
+  customCreateShape(1602580182, "vertical_line");
   customCreateShape(1602580302, "horizontal_line");
   widget
     .activeChart()
@@ -584,7 +590,7 @@ window.loadChartShapes = function () {
       }
     );
 
-    widget
+  widget
     .activeChart()
     .createMultipointShape(
       [
@@ -592,14 +598,14 @@ window.loadChartShapes = function () {
         { time: 1602564536, },
         { time: 1602564836, },
         { time: 1602565136, },
-      
+
       ],
       {
         shape: 'abcd_pattern'
       }
     );
 
-    widget
+  widget
     .activeChart()
     .createMultipointShape(
       [
@@ -612,7 +618,7 @@ window.loadChartShapes = function () {
         shape: 'triangle_pattern'
       }
     );
-    widget
+  widget
     .activeChart()
     .createMultipointShape(
       [
@@ -621,7 +627,7 @@ window.loadChartShapes = function () {
         { time: 1602564836, },
         { time: 1602565136, },
         { time: 1602565336, },
-        
+
         { time: 1602565136, },
         { time: 1602565336, }
       ],
@@ -629,25 +635,25 @@ window.loadChartShapes = function () {
         shape: '3divers_pattern'
       }
     );
-    
-   widget
+
+  widget
     .activeChart()
     .createMultipointShape(
       [
         { time: toTimestamp('10-12-2020 21:34:00'), },
-        { time:  toTimestamp('10-12-2020 21:41:00'), },
-        { time:  toTimestamp('10-12-2020 21:54:00'), },
-        { time:  toTimestamp('10-12-2020 22:25:00'), },
-        { time:  toTimestamp('10-12-2020 22:50:00'), },
-        { time:  toTimestamp('10-12-2020 23:01:00'), },
-        { time:  toTimestamp('10-12-2020 23:13:00'), }
+        { time: toTimestamp('10-12-2020 21:41:00'), },
+        { time: toTimestamp('10-12-2020 21:54:00'), },
+        { time: toTimestamp('10-12-2020 22:25:00'), },
+        { time: toTimestamp('10-12-2020 22:50:00'), },
+        { time: toTimestamp('10-12-2020 23:01:00'), },
+        { time: toTimestamp('10-12-2020 23:13:00'), }
       ],
       {
         shape: 'head_and_shoulders'
       }
     );
-      
-   widget
+
+  widget
     .activeChart()
     .createMultipointShape(
       [
@@ -663,31 +669,29 @@ window.loadChartShapes = function () {
     );
 
 
-         
-   widget.activeChart().createMultipointShape(
-     [ {time: 1602580840}],
-     {  shape: '0xf118',      
-        color:'#3d85c6',     
-        scale:1,    
-        icon :'f118' ,  
-       }   );
+
+  widget.activeChart().createMultipointShape(
+    [{ time: 1602580840 }],
+    {
+      shape: '0xf118',
+      color: '#3d85c6',
+      scale: 1,
+      icon: 'f118',
+    });
 }
 
 
 // ----------------------------------------------------------------------------------------------------------------
 // OtherFUnctions
 window.changeAPIDriver = function () {
-  alert(document.getElementById("drp_APIDriver").value);
-  
 };
 
-window.loadOrdersFromdb = function()
-{
-	try {
+window.loadOrdersFromdb = function () {
+  try {
 
     //const data=getAllOrders();
 
-    const data= [
+    const data = [
       {
         ID: 1,
         Timestamp: '2020-10-14T09:38:12.000Z',
@@ -743,23 +747,23 @@ window.loadOrdersFromdb = function()
     ]
     console.log(data);
 
-    data.forEach(function(value, index) {
+    data.forEach(function (value, index) {
       console.log(value);
-      var strSide= value.Side;
-      var strShape=(strSide=="buy")? "arrow_up": "arrow_down";
-      var strText=strSide+" order ID:"+value.ID+"Price:"+value.Price;
-        customCreateShape(value.oTimestamp,strShape,strText);
-        customCreateShapeWithDefault(value.oTimestamp, "price_label","test");
-        // customCreateShape(toTimestamp('10-12-2020 09:00:00'), "arrow_up", "Buy-1");
-        // customCreateShape(toTimestamp('10-12-2020 09:06:00'), "arrow_down", "Sell-1");
-      
+      var strSide = value.Side;
+      var strShape = (strSide == "buy") ? "arrow_up" : "arrow_down";
+      var strText = strSide + " order ID:" + value.ID + "Price:" + value.Price;
+      customCreateShape(value.oTimestamp, strShape, strText);
+      customCreateShapeWithDefault(value.oTimestamp, "price_label", "test");
+      // customCreateShape(toTimestamp('10-12-2020 09:00:00'), "arrow_up", "Buy-1");
+      // customCreateShape(toTimestamp('10-12-2020 09:06:00'), "arrow_down", "Sell-1");
+
     });
 
-	} catch (error) {
-        console.log(error);
-		throw new Error(`Orders request error: ${error.status}`);
+  } catch (error) {
+    console.log(error);
+    throw new Error(`Orders request error: ${error.status}`);
   }
-  
+
   // fetch('http://localhost:4000/orders')
   // // .then(res => res.json()) // comment this out for now
   // .then(res => res.text())          // convert to plain text
@@ -767,22 +771,21 @@ window.loadOrdersFromdb = function()
 };
 //widget.activeChart().getSeries().setVisible(true);
 
-window.createNewPosition = function()
-{
+window.createNewPosition = function () {
   //alert();
-widget.chart().createPositionLine()
-    .onModify(function() {
-        this.setText("onModify called");
-        var price= prompt("This will open the modify modal popup to modify the position. Enter the Quantity");
-        alert("Order modified successfuly.  You entered "+ price);
+  widget.chart().createPositionLine()
+    .onModify(function () {
+      this.setText("onModify called");
+      var price = prompt("This will open the modify modal popup to modify the position. Enter the Quantity");
+      alert("Order modified successfuly.  You entered " + price);
     })
-    .onReverse("onReverse called", function(text) {
-        this.setText(text);
-       
+    .onReverse("onReverse called", function (text) {
+      this.setText(text);
+
     })
-    .onClose("onClose called", function(text) {
-        this.setText(text);
-        confirm("Are you sure you want to cancel the position with price" + "Check how u can get the price" );
+    .onClose("onClose called", function (text) {
+      this.setText(text);
+      confirm("Are you sure you want to cancel the position with price" + "Check how u can get the price");
     })
     .setText("PROFIT: 71.1 (3.31%)")
     .setTooltip("bhp: Additional position information")
@@ -790,43 +793,44 @@ widget.chart().createPositionLine()
     .setCloseTooltip("Close position")
     .setReverseTooltip("Reverse position")
     .setQuantity("8.235")
-   // .setPrice(160)
+    // .setPrice(160)
     .setExtendLeft(false)
     .setLineStyle(0)
     .setLineLength(25);
-  }
-  window.createNewExecution = function()
-{
+}
+window.createNewExecution = function () {
   alert(widget.activeChart().getVisibleRange().from);
   widget.activeChart().createExecutionShape()
-  .setText("@1,320.75 Limit Buy 1")
-  .setTooltip("@1,320.75 Limit Buy 1")
-  .setTextColor("rgba(0,255,0,1)")
-  .setArrowColor("#0F0")
-  .setDirection("buy")
-  .setTime(widget.activeChart().getVisibleRange().from)
-  .setPrice("370");
+    .setText("@1,320.75 Limit Buy 1")
+    .setTooltip("@1,320.75 Limit Buy 1")
+    .setTextColor("rgba(0,255,0,1)")
+    .setArrowColor("#0F0")
+    .setDirection("buy")
+    .setTime(widget.activeChart().getVisibleRange().from)
+    .setPrice("370");
 
   widget.activeChart().createExecutionShape()
-  .setText("@380 Limit Buy 1")
-  .setTooltip("@380 Limit Buy 1: tooltip ")
-  .setTextColor("rgba(255,0,0,1)")
-  .setArrowColor("#0F0")
-  .setDirection("sell")
-  .setTime(widget.activeChart().getVisibleRange().from)
-  .setPrice("375");
+    .setText("@380 Limit Buy 1")
+    .setTooltip("@380 Limit Buy 1: tooltip ")
+    .setTextColor("rgba(255,0,0,1)")
+    .setArrowColor("#0F0")
+    .setDirection("sell")
+    .setTime(widget.activeChart().getVisibleRange().from)
+    .setPrice("375");
 
-  }  
-  window.createNewOrder = function()
-{
-//  alert(widget.activeChart().getVisibleRange().from);
+}
+window.createNewOrder = function () {
+  //  alert(widget.activeChart().getVisibleRange().from);
   var order = widget
-      .chart()
-      .createOrderLine()
-      .setText("Buy Line")
-      .setLineLength(3)
-      .setLineStyle(0)
-      .setQuantity("5 Qnty");
-    order.setPrice("380");
-  }
+    .chart()
+    .createOrderLine()
+    .setText("Buy Line")
+    .setLineLength(3)
+    .setLineStyle(0)
+    .setQuantity("5 Qnty");
+  order.setPrice("380");
+}
+
+
+
 loadChart();

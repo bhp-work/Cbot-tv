@@ -29,7 +29,29 @@
 //      // export default Datafeed;
 //  };  
 
-import Datafeed from "./charting_library_clonned_data/datafeeds/udf/lib/udf-compatible-datafeed.js"
-alert("api");
-console.log(Datafeed);
-export default Datafeed
+// import Datafeed from "./charting_library_clonned_data/datafeeds/udf/lib/udf-compatible-datafeed.js"
+// alert("api");
+// console.log(Datafeed);
+// export default Datafeed
+
+
+import Datafeed from "./datafeed.js";
+
+
+export function getdatafeed() {
+
+    let apid = document.getElementById("drp_APIDriver").value;
+   
+    if (apid == "TradingView") {
+      return  new Datafeeds.UDFCompatibleDatafeed("https://demo_feed.tradingview.com");
+    }
+    else {
+      
+      
+    return Datafeed;
+  
+    }
+  
+  }
+
+  //export Datafeed;

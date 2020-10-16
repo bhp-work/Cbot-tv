@@ -146,13 +146,13 @@ export default {
     onSymbolResolvedCallback,
     onResolveErrorCallback
   ) => {
-    console.log("[resolveSymbol]: Method call", symbolName);
+    console.log("[resolveSymbol]: Method call", symbolName,exchange);
     const symbols = await getAllSymbols();
     const symbolItem = symbols.find(
       ({ full_name }) => full_name === symbolName
     );
     if (!symbolItem) {
-      console.log("[resolveSymbol]: Cannot resolve symbol", symbolName);
+      console.log("[resolveSymbol]: Cannot resolve symbol", symbolName,exchange);
       onResolveErrorCallback("cannot resolve symbol");
       return;
     }

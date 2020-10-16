@@ -17,6 +17,11 @@
     type="text/javascript"
     src="charting_library_clonned_data/charting_library/charting_library.min.js">
 </script>
+<script src="charting_library_clonned_data/datafeeds/udf/dist/polyfills.js" type="text/javascript">
+</script>
+<script src="charting_library_clonned_data/datafeeds/udf/dist/bundle.js" type="text/javascript">
+</script>
+
 <!-- <script src="//requirejs.org/docs/release/2.3.5/minified/require.js"></script> -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.2/socket.io.js"></script>
 <!-- Custom datafeed module. -->
@@ -72,10 +77,11 @@
               <!-- <input type="checkbox" id="chk_hide_side_toolbar" onchange="ChangeAPIToCryptoCompare();">
              Show Crypto Compare data -->
       
-             <select id="drp_APIDriver" onchange="changeAPIDriver()">
+             <select id="drp_APIDriver" onchange="loadChart()">
               <!-- <option id="Binance">NASDAQNM</option> -->
-              <option id="TradingWiew">TradingView</option>
               <option id="Cryptocompare">Crypto Compare</option>
+              <option id="TradingWiew">TradingView</option>
+            
               <option id="CryptoXbot">Crypto-X-bot</option>
             </select>
             <td style="text-align:right ; "><b>Theme:</b>
